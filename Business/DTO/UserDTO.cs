@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Business.DTO
+namespace RunnersTracker.Business.DTO
 {
     [DataContract()]
     public partial class UserDTO

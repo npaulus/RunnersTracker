@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Business.DTO;
+using RunnersTracker.Business.DTO;
 
-namespace Business.Service
+namespace RunnersTracker.Business.Service
 {
-    class RegisterService
+    public class RegisterService
     {
-        public UserDTO registerNewUser(UserDTO user)
+        public UserDTO createNewUser(UserDTO user)
         {
 
             return user;

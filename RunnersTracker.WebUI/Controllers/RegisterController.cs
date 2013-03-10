@@ -1,4 +1,5 @@
 ﻿using RunnersTracker.WebUI.Models;
+using RunnersTracker.Business.Service; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace RunnersTracker.WebUI.Controllers
 {
     public class RegisterController : Controller
     {
+        RegisterService registerService = new RegisterService();
+
         //
         // GET: /Register/
 
