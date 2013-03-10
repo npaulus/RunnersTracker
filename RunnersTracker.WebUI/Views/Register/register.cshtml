@@ -1,0 +1,96 @@
+﻿@using System.Collections;
+@model RunnersTracker.WebUI.Models.RegisterModel
+
+@{
+    ViewBag.Title = "register";
+}
+<div class="row">
+    <div class="small-12 large-12 columns">
+        <h2>Sign up!</h2>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="small-6 large-6 columns">
+        Sign up now to start enjoying this awesome service that you have no idea what it does!
+    </div>
+    <div class="small-6 large-6 columns">
+       <form name="register" method="post" action="/register/doRegister">
+           <fieldset>
+               <legend>Sign up!</legend>
+               <div class="row">
+                   <div class="small-3 large-3 columns">                       
+                       @Html.LabelFor(model => model.FirstName, new { @class = "right inline"})                       
+                   </div>
+                   <div class="small-9 large-9 columns">                       
+                       @Html.TextBoxFor(model => model.FirstName, new { placeholder = "First Name" })
+                       @Html.ValidationMessageFor(model => model.FirstName)
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       @Html.LabelFor(model => model.LastName, new { @class = "right inline"})
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       @Html.TextBoxFor(model => model.LastName, new { placeholder = "Last Name" })
+                       @Html.ValidationMessageFor(model => model.LastName)
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <label for="email" class="right inline">Email:</label>
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       <input type="text" name="email" placeholder="Email" />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <label for="confirmEmail" class="right inline">Confirm Email:</label>
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       <input type="text" name="confirmEmail" placeholder="Confirm Email" />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <label for="password" class="right inline">Password:</label>
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       <input type="password" name="password" placeholder="Password" />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <label for="confirmPassword" class="right inline">Confirm Password:</label>
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       <input type="text" name="confirmPassword" placeholder="Confirm Password" />
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <label for="timeZone" class="right inline">Time Zone:</label>
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       <select name="timeZone">
+                           @{ System.Collections.ObjectModel.ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones(); }
+                              @foreach(TimeZoneInfo timeZone in tz){
+                                  <option value="@timeZone.Id">@timeZone.DisplayName</option>
+                              }                            
+                       </select>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       <input type="submit" class="button" value="Sign up!" />
+                   </div>
+               </div>
+           </fieldset>
+       </form>
+    </div>
+</div>
+
+
+@DateTime.Now

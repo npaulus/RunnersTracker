@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="02a11b26e2ba4f7fae2e5e042383e68a" Name="Diagram1" >
+        <EntityTypeShape EntityType="RunnersTrackerDB.User" Width="1.5" PointX="7.125" PointY="1.125" />
+        <EntityTypeShape EntityType="RunnersTrackerDB.Shoe" Width="1.5" PointX="2.75" PointY="0.5" />
+        <AssociationConnector Association="RunnersTrackerDB.UserShoe" />
+        <EntityTypeShape EntityType="RunnersTrackerDB.LogEntry" Width="1.5" PointX="3" PointY="3.125" />
+        <AssociationConnector Association="RunnersTrackerDB.ShoeLogEntry" />
+        <AssociationConnector Association="RunnersTrackerDB.UserLogEntry" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

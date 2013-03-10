@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.WebUI", "RunnersTracker.WebUI\RunnersTracker.WebUI.csproj", "{1B255D9E-A41B-4F66-98EE-BC778C2280B8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{36A91E78-39A3-4905-A275-E081598AF1AA} = {36A91E78-39A3-4905-A275-E081598AF1AA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.UnitTests", "RunnersTracker.UnitTests\RunnersTracker.UnitTests.csproj", "{695654E4-96CA-4F03-98AB-D0E16A18D282}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B255D9E-A41B-4F66-98EE-BC778C2280B8} = {1B255D9E-A41B-4F66-98EE-BC778C2280B8}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.Business", "Business\RunnersTracker.Business.csproj", "{36A91E78-39A3-4905-A275-E081598AF1AA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B92E4032-EF38-42FD-926F-CEE5079E2554} = {B92E4032-EF38-42FD-926F-CEE5079E2554}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.DataAccess", "ClassLibrary1\RunnersTracker.DataAccess.csproj", "{B92E4032-EF38-42FD-926F-CEE5079E2554}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6618D5B3-472C-44C6-A0D0-BE83FBE01901} = {6618D5B3-472C-44C6-A0D0-BE83FBE01901}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTrackerDB", "RunnersTrackerDB\RunnersTrackerDB.csproj", "{6618D5B3-472C-44C6-A0D0-BE83FBE01901}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2C0BFB76-BB6A-4FF7-975C-0C154A59ACA2}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B255D9E-A41B-4F66-98EE-BC778C2280B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B255D9E-A41B-4F66-98EE-BC778C2280B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B255D9E-A41B-4F66-98EE-BC778C2280B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B255D9E-A41B-4F66-98EE-BC778C2280B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695654E4-96CA-4F03-98AB-D0E16A18D282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695654E4-96CA-4F03-98AB-D0E16A18D282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695654E4-96CA-4F03-98AB-D0E16A18D282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695654E4-96CA-4F03-98AB-D0E16A18D282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A91E78-39A3-4905-A275-E081598AF1AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A91E78-39A3-4905-A275-E081598AF1AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A91E78-39A3-4905-A275-E081598AF1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A91E78-39A3-4905-A275-E081598AF1AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B92E4032-EF38-42FD-926F-CEE5079E2554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B92E4032-EF38-42FD-926F-CEE5079E2554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B92E4032-EF38-42FD-926F-CEE5079E2554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B92E4032-EF38-42FD-926F-CEE5079E2554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6618D5B3-472C-44C6-A0D0-BE83FBE01901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6618D5B3-472C-44C6-A0D0-BE83FBE01901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6618D5B3-472C-44C6-A0D0-BE83FBE01901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6618D5B3-472C-44C6-A0D0-BE83FBE01901}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
