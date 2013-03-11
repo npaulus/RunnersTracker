@@ -46,6 +46,9 @@
     <Property Name="ShoeName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ShoeDistance" Type="decimal" Nullable="false" DefaultValue="0" />
     <Property Name="ShoeUserId" Type="int" Nullable="false" />
+    <Property Name="ShoeBrand" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ShoeModel" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="LogEntries">
     <Key>
@@ -149,6 +152,9 @@
           <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserShoe" FromRole="Shoe" ToRole="User" />
           <Property Type="Int32" Name="ShoeUserId" Nullable="false" />
           <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.ShoeLogEntry" FromRole="Shoe" ToRole="LogEntry" />
+          <Property Type="String" Name="ShoeBrand" Nullable="false" />
+          <Property Type="String" Name="ShoeModel" Nullable="false" />
+          <Property Type="DateTime" Name="PurchaseDate" Nullable="false" />
         </EntityType>
         <Association Name="UserShoe">
           <End Type="RunnersTrackerDB.User" Role="User" Multiplicity="1" />
@@ -235,6 +241,9 @@
           <ScalarProperty Name="ShoeName" ColumnName="ShoeName" />
           <ScalarProperty Name="ShoeDistance" ColumnName="ShoeDistance" />
           <ScalarProperty Name="ShoeUserId" ColumnName="ShoeUserId" />
+          <ScalarProperty Name="ShoeBrand" ColumnName="ShoeBrand" />
+          <ScalarProperty Name="ShoeModel" ColumnName="ShoeModel" />
+          <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

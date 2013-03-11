@@ -24,6 +24,9 @@ namespace RunnersTrackerDB
         public string ShoeName { get; set; }
         public decimal ShoeDistance { get; set; }
         public int ShoeUserId { get; set; }
+        public string ShoeBrand { get; set; }
+        public string ShoeModel { get; set; }
+        public System.DateTime PurchaseDate { get; set; }
     
         public virtual User User { get; set; }
         public virtual ICollection<LogEntry> LogEntries { get; set; }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/08/2013 13:14:12
--- Generated from EDMX file: C:\RunnersTracker\Solution1\RunnersTrackerDB\RunnesTrackerDBDesign.edmx
+-- Date Created: 03/11/2013 17:11:00
+-- Generated from EDMX file: C:\Users\Nate\Documents\GitHub\RunnersTracker\RunnersTrackerDB\RunnesTrackerDBDesign.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -66,7 +66,10 @@ CREATE TABLE [dbo].[Shoes] (
     [ShoeId] int IDENTITY(1,1) NOT NULL,
     [ShoeName] nvarchar(max)  NOT NULL,
     [ShoeDistance] decimal(18,0)  NOT NULL,
-    [ShoeUserId] int  NOT NULL
+    [ShoeUserId] int  NOT NULL,
+    [ShoeBrand] nvarchar(max)  NOT NULL,
+    [ShoeModel] nvarchar(max)  NOT NULL,
+    [PurchaseDate] datetime  NOT NULL
 );
 GO
 
