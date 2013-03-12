@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/11/2013 17:11:00
+-- Date Created: 03/12/2013 12:28:21
 -- Generated from EDMX file: C:\Users\Nate\Documents\GitHub\RunnersTracker\RunnersTrackerDB\RunnesTrackerDBDesign.edmx
 -- --------------------------------------------------
 
@@ -51,13 +51,14 @@ CREATE TABLE [dbo].[Users] (
     [FirstName] nvarchar(max)  NOT NULL,
     [LastName] nvarchar(max)  NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
+    [Password] varbinary(max)  NOT NULL,
     [TimeZone] nvarchar(max)  NOT NULL,
     [DistanceType] nvarchar(max)  NOT NULL,
     [AccountConfirmed] bit  NOT NULL,
     [ConfirmCode] nvarchar(max)  NULL,
     [PassResetCode] nvarchar(max)  NULL,
-    [PassResetExpire] datetime  NULL
+    [PassResetExpire] datetime  NULL,
+    [Salt] varbinary(max)  NOT NULL
 );
 GO
 

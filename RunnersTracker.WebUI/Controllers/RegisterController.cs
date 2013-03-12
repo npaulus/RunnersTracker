@@ -2,6 +2,7 @@
 using RunnersTracker.Business.Service;
 using RunnersTracker.Business.DTO; 
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -33,7 +34,7 @@ namespace RunnersTracker.WebUI.Controllers
                 user.FirstName = registerModel.FirstName;
                 user.LastName = registerModel.LastName;
                 user.Email = registerModel.Email;
-                user.Password = registerModel.Password;
+                user.Password = Encoding.UTF8.GetBytes(registerModel.Password);
                 user.TimeZone = registerModel.TimeZone;
                 
                 if (registerService.createNewUser(user))

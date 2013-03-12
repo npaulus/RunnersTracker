@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RunnersTracker.Common;
 using RunnersTracker.Business.DTO;
 using AutoMapper;
 using RunnersTracker.DataAccess;
@@ -23,6 +24,7 @@ namespace RunnersTracker.Business.Service
             }
             else
             {
+                createPassword(user);
                 Mapper.CreateMap<UserDTO, User>();
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
@@ -54,6 +56,15 @@ namespace RunnersTracker.Business.Service
             if (lowerCase)
                 return builder.ToString().ToLower();
             return builder.ToString();
+        }
+
+        private UserDTO createPassword(UserDTO user)
+        {
+            user.Salt = PasswordManagement.GenerateSalt();
+            byte[] pass = user.Password;
+            user.Password = PasswordManagement.GenerateSaltedPassword(pass, user.Salt);
+            
+            return user;
         }
     }
 }

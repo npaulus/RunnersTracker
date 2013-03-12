@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36A91E78-39A3-4905-A275-E081598AF1AA}</ProjectGuid>
+    <ProjectGuid>{262033E1-78A9-4731-BC35-D1F7700F785D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RunnersTracker.Business</RootNamespace>
-    <AssemblyName>RunnersTracker.Business</AssemblyName>
+    <RootNamespace>RunnersTracker.Common</RootNamespace>
+    <AssemblyName>RunnersTracker.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,12 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,31 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\LogEntryDTO.cs" />
-    <Compile Include="DTO\ShoeDTO.cs" />
-    <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="PasswordManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\RegisterService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RunnersTracker.Common\RunnersTracker.Common.csproj">
-      <Project>{262033e1-78a9-4731-bc35-d1f7700f785d}</Project>
-      <Name>RunnersTracker.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RunnersTracker.DataAccess\RunnersTracker.DataAccess.csproj">
-      <Project>{6c138768-5437-43bd-b857-7530a5c516ac}</Project>
-      <Name>RunnersTracker.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RunnersTrackerDB\RunnersTrackerDB.csproj">
-      <Project>{6618d5b3-472c-44c6-a0d0-be83fbe01901}</Project>
-      <Name>RunnersTrackerDB</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

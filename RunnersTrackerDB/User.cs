@@ -26,13 +26,14 @@ namespace RunnersTrackerDB
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
         public string TimeZone { get; set; }
         public string DistanceType { get; set; }
         public bool AccountConfirmed { get; set; }
         public string ConfirmCode { get; set; }
         public string PassResetCode { get; set; }
         public Nullable<System.DateTime> PassResetExpire { get; set; }
+        public byte[] Salt { get; set; }
     
         public virtual ICollection<Shoe> Shoes { get; set; }
         public virtual ICollection<LogEntry> LogEntries { get; set; }

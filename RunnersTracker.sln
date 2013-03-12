@@ -14,6 +14,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.Business", "Business\RunnersTracker.Business.csproj", "{36A91E78-39A3-4905-A275-E081598AF1AA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6C138768-5437-43BD-B857-7530A5C516AC} = {6C138768-5437-43BD-B857-7530A5C516AC}
+		{262033E1-78A9-4731-BC35-D1F7700F785D} = {262033E1-78A9-4731-BC35-D1F7700F785D}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTrackerDB", "RunnersTrackerDB\RunnersTrackerDB.csproj", "{6618D5B3-472C-44C6-A0D0-BE83FBE01901}"
@@ -26,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2C0BFB
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.DataAccess", "RunnersTracker.DataAccess\RunnersTracker.DataAccess.csproj", "{6C138768-5437-43BD-B857-7530A5C516AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnersTracker.Common", "RunnersTracker.Common\RunnersTracker.Common.csproj", "{262033E1-78A9-4731-BC35-D1F7700F785D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +56,10 @@ Global
 		{6C138768-5437-43BD-B857-7530A5C516AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C138768-5437-43BD-B857-7530A5C516AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C138768-5437-43BD-B857-7530A5C516AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{262033E1-78A9-4731-BC35-D1F7700F785D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{262033E1-78A9-4731-BC35-D1F7700F785D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{262033E1-78A9-4731-BC35-D1F7700F785D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{262033E1-78A9-4731-BC35-D1F7700F785D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

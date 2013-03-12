@@ -30,13 +30,14 @@
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="varbinary(max)" Nullable="false" />
     <Property Name="TimeZone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DistanceType" Type="nvarchar(max)" Nullable="false" DefaultValue="Miles" />
     <Property Name="AccountConfirmed" Type="bit" Nullable="false" DefaultValue="false" />
     <Property Name="ConfirmCode" Type="nvarchar(max)" Nullable="true" />
     <Property Name="PassResetCode" Type="nvarchar(max)" Nullable="true" />
     <Property Name="PassResetExpire" Type="datetime" Nullable="true" />
+    <Property Name="Salt" Type="varbinary(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Shoes">
     <Key>
@@ -132,7 +133,7 @@
           <Property Type="String" Name="FirstName" Nullable="false" />
           <Property Type="String" Name="LastName" Nullable="false" />
           <Property Type="String" Name="Email" Nullable="false" />
-          <Property Type="String" Name="Password" Nullable="false" />
+          <Property Type="Binary" Name="Password" Nullable="false" />
           <Property Type="String" Name="TimeZone" Nullable="false" />
           <Property Type="String" Name="DistanceType" Nullable="false" DefaultValue="Miles" />
           <Property Type="Boolean" Name="AccountConfirmed" Nullable="false" DefaultValue="false" />
@@ -141,6 +142,7 @@
           <Property Type="DateTime" Name="PassResetExpire" Nullable="true" />
           <NavigationProperty Name="Shoes" Relationship="RunnersTrackerDB.UserShoe" FromRole="User" ToRole="Shoe" />
           <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.UserLogEntry" FromRole="User" ToRole="LogEntry" />
+          <Property Type="Binary" Name="Salt" Nullable="false" />
         </EntityType>
         <EntityType Name="Shoe">
           <Key>
@@ -231,6 +233,7 @@
           <ScalarProperty Name="ConfirmCode" ColumnName="ConfirmCode" />
           <ScalarProperty Name="PassResetCode" ColumnName="PassResetCode" />
           <ScalarProperty Name="PassResetExpire" ColumnName="PassResetExpire" />
+          <ScalarProperty Name="Salt" ColumnName="Salt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
