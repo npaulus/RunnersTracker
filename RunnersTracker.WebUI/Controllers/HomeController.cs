@@ -10,7 +10,7 @@ namespace RunnersTracker.WebUI.Controllers
     {
         //
         // GET: /Home/
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "My First Page";

@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "Summary";
 }
-
+@using RunnersTracker.Business.DTO
 <h2>Logged in successfully!</h2>
+@{UserDTO user = (UserDTO) Session["User"];}
+<p>@user.Email</p>

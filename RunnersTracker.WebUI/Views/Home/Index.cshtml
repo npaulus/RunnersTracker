@@ -5,43 +5,47 @@
 
 <div class="row">
     <div class="small-6 large-6 columns">
-        Welcome to Runner's tracker.
+        <p>
+            Welcome to Runner's tracker.  There isn't much here yet, but you can sign up (you might as well wait since you can't do anything yet).
+           Hopefully this will provide an easy mobile optimized way to track and view workouts!  This site will offer the following features:           
+        </p>
+        <ul>
+            <li>Track daily mileage</li>
+            <li>Track miles on specific pairs of shoes</li>
+            <li>Generate reports based on entered miles</li>
+            <li>Tag your workouts with things like 10K or interval_workout</li>
+        </ul>
     </div>
     <div class="small-6 large-6 columns">
-       <form name="register" method="post" action="/login/LoginIndex">
+        <form name="register" method="post" action="/login/LoginIndex">
             <fieldset>
                 <legend>Login</legend>
-                @if (ViewBag.LoginFailed != null)
+                @if (TempData["LoginFailed"] != null)
                 {
                     <div class="row">
                         <div class="small-12 large-12 columns">
-                            @ViewBag.LoginFailed
+                            @TempData["LoginFailed"]
                         </div>
                     </div>
                 }
                 <div class="row">
-                   <div class="small-3 large-3 columns">                       
-                       @Html.LabelFor(model => model.Username, new { @class = "right inline"})                       
-                   </div>
-                   <div class="small-9 large-9 columns">                       
-                       @Html.TextBoxFor(model => model.Username, new { placeholder = "Email" })
-                       @Html.ValidationMessageFor(model => model.Username)
-                   </div>
-               </div>
-               <div class="row">
-                   <div class="small-3 large-3 columns">
-                       @Html.LabelFor(model => model.Password, new { @class = "right inline"})
-                   </div>
-                   <div class="small-9 large-9 columns">
-                       @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
-                       @Html.ValidationMessageFor(model => model.Password)
-                   </div>
-               </div>
+                    <div class="small-3 large-3 columns">
+                        @Html.LabelFor(model => model.Username, new { @class = "right inline" })
+                    </div>
+                    <div class="small-9 large-9 columns">
+                        @Html.TextBoxFor(model => model.Username, new { placeholder = "Email" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-3 large-3 columns">
+                        @Html.LabelFor(model => model.Password, new { @class = "right inline" })
+                    </div>
+                    <div class="small-9 large-9 columns">
+                        @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
+                    </div>
+                </div>
                 <input type="submit" value="login" class="button" />
             </fieldset>
-       </form>
+        </form>
     </div>
 </div>
-
-
-@DateTime.Now.ToString()

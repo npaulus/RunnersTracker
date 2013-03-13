@@ -1,10 +1,12 @@
 ﻿using RunnersTracker.WebUI.Models;
 using RunnersTracker.Business.Service;
+using RunnersTracker.Business.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace RunnersTracker.WebUI.Controllers
 {
@@ -14,6 +16,7 @@ namespace RunnersTracker.WebUI.Controllers
         //
         // GET: /Login/
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             LoginModel model = new LoginModel();
@@ -21,15 +24,72 @@ namespace RunnersTracker.WebUI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult LoginIndex(LoginModel model)
         {
-            if(loginService.Login(model.Username, model.Password) && ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Summary", "Account");
+                UserDTO user = loginService.Login(model.Username, model.Password);
+                if (user == null)
+                {
+                    TempData["LoginFailed"] = "Login Failed!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                        1,
+                        user.Email,
+                        DateTime.Now,
+                        DateTime.Now.AddMinutes(15),
+                        false,
+                        user.Email);
+                    string encTicket = FormsAuthentication.Encrypt(authTicket);
+                    HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                    Session["User"] = user;
+                    Response.Cookies.Add(faCookie);
+                    return RedirectToAction("Summary", "Account");
+                }                
+            }
+            TempData["LoginFailed"] = "Login Failed!";
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserDTO user = loginService.Login(model.Username, model.Password);
+                if (user == null)
+                {
+                    ViewBag.LoginFailed = "Login Failed!";
+                    return View();
+                }
+                else
+                {
+                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                        1,
+                        user.Email,
+                        DateTime.Now,
+                        DateTime.Now.AddMinutes(15),
+                        false,
+                        user.Email);
+                    string encTicket = FormsAuthentication.Encrypt(authTicket);
+                    HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                    Session["User"] = user;
+                    Response.Cookies.Add(faCookie);
+                    return RedirectToAction("Summary", "Account");
+                }
+                
             }
             ViewBag.LoginFailed = "Login Failed!";
-            return View("Index", "Home");
+            return View();
         }
+
+
 
     }
 }
