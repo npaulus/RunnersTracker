@@ -24,9 +24,20 @@ namespace RunnersTracker.DataAccess
                 }
             }
             
-
-
             return false;
+        }
+
+        public User RetrieveUser(string email)
+        {
+            var ctx = new RunnersTrackerContext();
+
+            var findUser = ctx.Users.Where(u => u.Email.Equals(email));
+            if (findUser.Count() == 1)
+            {
+                return findUser.First();
+            }
+
+            return null;
         }
 
         public User Save(User user)

@@ -20,6 +20,12 @@ namespace RunnersTracker.WebUI
             );
 
             routes.MapRoute(
+                name: "Login",
+                url: "login/{action}",
+                defaults: new { controller = "Login", action = "Login" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

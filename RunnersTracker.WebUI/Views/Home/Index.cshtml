@@ -1,13 +1,45 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+@model RunnersTracker.WebUI.Models.LoginModel
 
 <div class="row">
     <div class="small-6 large-6 columns">
         Welcome to Runner's tracker.
     </div>
     <div class="small-6 large-6 columns">
-       Login form will go here.
+       <form name="register" method="post" action="/login/LoginIndex">
+            <fieldset>
+                <legend>Login</legend>
+                @if (ViewBag.LoginFailed != null)
+                {
+                    <div class="row">
+                        <div class="small-12 large-12 columns">
+                            @ViewBag.LoginFailed
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                   <div class="small-3 large-3 columns">                       
+                       @Html.LabelFor(model => model.Username, new { @class = "right inline"})                       
+                   </div>
+                   <div class="small-9 large-9 columns">                       
+                       @Html.TextBoxFor(model => model.Username, new { placeholder = "Email" })
+                       @Html.ValidationMessageFor(model => model.Username)
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="small-3 large-3 columns">
+                       @Html.LabelFor(model => model.Password, new { @class = "right inline"})
+                   </div>
+                   <div class="small-9 large-9 columns">
+                       @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
+                       @Html.ValidationMessageFor(model => model.Password)
+                   </div>
+               </div>
+                <input type="submit" value="login" class="button" />
+            </fieldset>
+       </form>
     </div>
 </div>
 
