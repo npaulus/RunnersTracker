@@ -1,0 +1,38 @@
+﻿@model RunnersTracker.WebUI.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row" style="padding-top:20px;">
+    <div style="padding-top:10px;" class="small-6 small-centered columns panel">
+        <h3 style="text-align: center;">Login</h3>
+        <form name="register" method="post" action="/login/Login">
+            @if (ViewBag.LoginFailed != null)
+            {
+                <div class="row">
+                    <div class="small-12 large-12 columns">
+                        @ViewBag.LoginFailed
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.Username, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextBoxFor(model => model.Username, new { placeholder = "Email" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.Password, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
+                </div>
+            </div>
+            <input type="submit" value="login" class="button" />
+        </form>
+    </div>
+</div>
