@@ -73,7 +73,7 @@ namespace RunnersTracker.Business.Service
 
         private void SendEmail(UserDTO user)
         {
-         
+         try
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtpout.secureserver.net");
