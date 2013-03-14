@@ -9,12 +9,18 @@ using RunnersTracker.DataAccess;
 using RunnersTrackerDB;
 using System.Net.Mail;
 using log4net;
+using System.ComponentModel;
+using System.Net;
+using System.Threading;
+using System.Net.Configuration;
+using System.Configuration;
 
 namespace RunnersTracker.Business.Service
 {
     public class RegisterService
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterService));
+        
         UserDAC userDac = new UserDAC();
 
         public bool createNewUser(UserDTO user)
@@ -35,7 +41,7 @@ namespace RunnersTracker.Business.Service
                 SendEmail(user);
                 logger.Info("send email here if this works");
             }
-            
+
             return true;
         }
 
@@ -67,47 +73,38 @@ namespace RunnersTracker.Business.Service
             user.Salt = PasswordManagement.GenerateSalt();
             byte[] pass = user.Password;
             user.Password = PasswordManagement.GenerateSaltedPassword(pass, user.Salt);
-            
+
             return user;
         }
 
-        private void SendEmail(UserDTO user)
+        private static void SendEmail(UserDTO user)
         {
-         try
+            //use thread pool to prevent the controller from blocking the SendAsync method
+            ThreadPool.QueueUserWorkItem(t =>
             {
                 MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtpout.secureserver.net");
+                
+                SmtpClient SmtpServer = new SmtpClient();
 
-                mail.From = new MailAddress("info@runnerstracker.com");
                 mail.To.Add(user.Email);
                 mail.Subject = "Test Mail";
                 mail.Body = "This is for testing SMTP mail from GoDaddy";
 
-                SmtpServer.Port = 465;
-               
-                SmtpServer.EnableSsl = true;
-
-                SmtpServer.SendAsync(mail, null);
-
-            }
-            catch (SmtpException ex)
-            {
-                logger.Debug(ex.Message);
-                logger.Info(ex.Message);
-                logger.Info(ex.StackTrace);
-            }
-            catch (InvalidOperationException exception)
-            {
-                logger.Info(exception.Message);
-                logger.Info(exception.StackTrace);
-            }
-            catch (Exception e)
-            {
-                logger.Info("From main exception");
-                logger.Info(e.Message);
-                logger.Info(e.StackTrace);
-            }
+                SmtpServer.SendCompleted += delegate(object sender, AsyncCompletedEventArgs e)
+                {
+                    if (e.Error != null)
+                    {
+                        System.Diagnostics.Trace.TraceError(e.Error.ToString());
+                        logger.Info(e.Error.ToString());
+                    }
+                    MailMessage userMessage = e.UserState as MailMessage;
+                    if (userMessage != null)
+                    {
+                        userMessage.Dispose();
+                    }
+                };
+                SmtpServer.SendAsync(mail, mail);
+            });
         }
-
     }
 }
