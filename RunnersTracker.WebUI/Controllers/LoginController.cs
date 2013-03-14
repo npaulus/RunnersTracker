@@ -12,6 +12,10 @@ namespace RunnersTracker.WebUI.Controllers
 {
     public class LoginController : Controller
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public log4net.ILog Logger { get { return _logger; } }
+
+
         private LoginService loginService = new LoginService();
         //
         // GET: /Login/
@@ -19,6 +23,7 @@ namespace RunnersTracker.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            Logger.Info("test logging");
             LoginModel model = new LoginModel();
             return View(model);
         }

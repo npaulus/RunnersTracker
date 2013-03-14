@@ -7,20 +7,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
 
 namespace RunnersTracker.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class RegisterController : Controller
-    {
+    {        
         RegisterService registerService = new RegisterService();
-
+        private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterController));
         //
         // GET: /Register/
 
         public ActionResult Register()
         {
             RegisterModel registerModel = new RegisterModel();
-
+            logger.Info("Inside register action result");
             return View(registerModel);
         }
 
@@ -39,6 +41,7 @@ namespace RunnersTracker.WebUI.Controllers
                 
                 if (registerService.createNewUser(user))
                 {
+                    logger.Info("Register worked");
                     return RedirectToAction("RegisterComplete");
                 }
                 else
