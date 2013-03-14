@@ -7,17 +7,20 @@ using RunnersTracker.Business.DTO;
 using AutoMapper;
 using RunnersTracker.DataAccess;
 using RunnersTrackerDB;
+using System.Net.Mail;
+using log4net;
 
 namespace RunnersTracker.Business.Service
 {
     public class RegisterService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterService));
         UserDAC userDac = new UserDAC();
 
         public bool createNewUser(UserDTO user)
         {
             user.ConfirmCode = RandomString(26, true);
-
+            logger.Info("Testing the logger");
             if (userDac.getUser(user.Email)) //check if user already exists
             {
                 return false;
@@ -29,7 +32,8 @@ namespace RunnersTracker.Business.Service
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
                 userDac.Save(userEntity);
-                //if successful email confirmation
+                SendEmail(user);
+                logger.Info("send email here if this works");
             }
             
             return true;
@@ -66,5 +70,44 @@ namespace RunnersTracker.Business.Service
             
             return user;
         }
+
+        private void SendEmail(UserDTO user)
+        {
+         
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtpout.secureserver.net");
+
+                mail.From = new MailAddress("info@runnerstracker.com");
+                mail.To.Add(user.Email);
+                mail.Subject = "Test Mail";
+                mail.Body = "This is for testing SMTP mail from GoDaddy";
+
+                SmtpServer.Port = 465;
+               
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.SendAsync(mail, null);
+
+            }
+            catch (SmtpException ex)
+            {
+                logger.Debug(ex.Message);
+                logger.Info(ex.Message);
+                logger.Info(ex.StackTrace);
+            }
+            catch (InvalidOperationException exception)
+            {
+                logger.Info(exception.Message);
+                logger.Info(exception.StackTrace);
+            }
+            catch (Exception e)
+            {
+                logger.Info("From main exception");
+                logger.Info(e.Message);
+                logger.Info(e.StackTrace);
+            }
+        }
+
     }
 }

@@ -14,21 +14,29 @@ namespace RunnersTracker.Business.Service
     {
         UserDAC userDac = new UserDAC();
 
-        public bool Login(string email, string password)
+        public UserDTO Login(string email, string password)
         {
             UserDTO userDTO = new UserDTO();
             User userEntity = userDac.RetrieveUser(email);
 
             if (userEntity == null)
             {
-                return false;
+                return null;
             }
             else
             {
+                
                 Mapper.CreateMap<User, UserDTO>();
                 userDTO = Mapper.Map<User, UserDTO>(userEntity);
                 byte[] submittedPassword = PasswordManagement.GenerateSaltedPassword(Encoding.UTF8.GetBytes(password), userDTO.Salt);
-                return PasswordManagement.ComparePasswords(userDTO.Password, submittedPassword);
+                if (PasswordManagement.ComparePasswords(userDTO.Password, submittedPassword))
+                {
+                    return userDTO;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }
