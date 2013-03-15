@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using RunnersTracker.Common;
 using RunnersTracker.Business.DTO;
@@ -10,10 +8,11 @@ using RunnersTrackerDB;
 using System.Net.Mail;
 using log4net;
 using System.ComponentModel;
-using System.Net;
 using System.Threading;
-using System.Net.Configuration;
-using System.Configuration;
+using System.IO;
+using System.Xml;
+using System.Xml.XPath;
+using System.Xml.Xsl;
 
 namespace RunnersTracker.Business.Service
 {
@@ -26,7 +25,7 @@ namespace RunnersTracker.Business.Service
         public bool createNewUser(UserDTO user)
         {
             user.ConfirmCode = RandomString(26, true);
-            logger.Info("Testing the logger");
+            
             if (userDac.getUser(user.Email)) //check if user already exists
             {
                 return false;
@@ -37,9 +36,9 @@ namespace RunnersTracker.Business.Service
                 Mapper.CreateMap<UserDTO, User>();
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
-                userDac.Save(userEntity);
+                //userDac.Save(userEntity);
                 SendEmail(user);
-                logger.Info("send email here if this works");
+                
             }
 
             return true;
@@ -87,8 +86,9 @@ namespace RunnersTracker.Business.Service
                 SmtpClient SmtpServer = new SmtpClient();
 
                 mail.To.Add(user.Email);
-                mail.Subject = "Test Mail";
-                mail.Body = "This is for testing SMTP mail from GoDaddy";
+                mail.Subject = "Welcome to Runner's Tracker!";
+                mail.IsBodyHtml = true;
+                mail.Body = createWelcomeEmail(user);
 
                 SmtpServer.SendCompleted += delegate(object sender, AsyncCompletedEventArgs e)
                 {
@@ -106,5 +106,42 @@ namespace RunnersTracker.Business.Service
                 SmtpServer.SendAsync(mail, mail);
             });
         }
+
+        private static string createWelcomeEmail(UserDTO user)
+        {
+            
+            using (var sw = new MemoryStream())
+            {
+                using (var xw = XmlWriter.Create(sw))
+                {
+                    xw.WriteStartDocument();
+                    xw.WriteStartElement("welcomeEmail");
+                    xw.WriteStartElement("firstName");
+                    xw.WriteString(user.FirstName);
+                    xw.WriteEndElement();
+
+                    xw.WriteStartElement("confirmLink");
+                    xw.WriteString("http://localhost/register/confirm/" + user.ConfirmCode);
+                    xw.WriteEndElement();
+
+                    xw.WriteEndElement();
+                    xw.WriteEndDocument();
+
+                }
+                sw.Position = 0; //set to beginning of stream before reading
+                XPathDocument xpath = new XPathDocument(sw);               
+
+                XslCompiledTransform myXslTrans = new XslCompiledTransform();
+                logger.Info(AppDomain.CurrentDomain.BaseDirectory);
+                myXslTrans.Load(AppDomain.CurrentDomain.BaseDirectory+"..\\Business\\MailTemplates\\emailTemplate.xslt");
+                using (var ms = new MemoryStream())
+                {
+                    myXslTrans.Transform(xpath, null, ms);
+                    ms.Position = 0; //set tp beginning of stream before reading
+                    StreamReader reader = new StreamReader(ms);
+                    return reader.ReadToEnd();
+                }                
+            }
+        }        
     }
 }
