@@ -15,8 +15,8 @@ namespace RunnersTracker.WebUI
 
             routes.MapRoute(
                 name: "Register",
-                url: "register/{action}",
-                defaults: new { controller = "Register", action = "Register" }
+                url: "register/{action}/{code}",
+                defaults: new { controller = "Register", action = "Register", code = UrlParameter.Optional }
             );
 
             routes.MapRoute(

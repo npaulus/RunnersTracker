@@ -36,7 +36,7 @@ namespace RunnersTracker.Business.Service
                 Mapper.CreateMap<UserDTO, User>();
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
-                //userDac.Save(userEntity);
+                userDac.Save(userEntity);
                 SendEmail(user);
                 
             }
@@ -44,7 +44,12 @@ namespace RunnersTracker.Business.Service
             return true;
         }
 
-
+        public bool ConfirmUser(string code)
+        {
+            bool result = userDac.ConfirmUserAccount(code);
+            logger.Info("Service gets a result of: " + result);
+            return result;
+        }
 
         /// <summary>
         /// Generates a random string with the given length

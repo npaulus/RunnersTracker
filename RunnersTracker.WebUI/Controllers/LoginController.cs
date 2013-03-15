@@ -23,7 +23,6 @@ namespace RunnersTracker.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            Logger.Info("test logging");
             LoginModel model = new LoginModel();
             return View(model);
         }

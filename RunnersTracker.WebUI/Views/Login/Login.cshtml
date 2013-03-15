@@ -7,6 +7,9 @@
 <div class="row" style="padding-top:20px;">
     <div style="padding-top:10px;" class="small-6 small-centered columns panel">
         <h3 style="text-align: center;">Login</h3>
+        @if(TempData["Confirm"] != null){
+            <h4 style="text-align:center;color:green;">@TempData["Confirm"]</h4>
+        }
         <form name="register" method="post" action="/login/Login">
             @if (ViewBag.LoginFailed != null)
             {

@@ -61,5 +61,22 @@ namespace RunnersTracker.WebUI.Controllers
             return View("RegisterComplete");
         }
 
+        [HttpGet]
+        public ActionResult Confirm(string code)
+        {
+            logger.Info(code);
+            if (registerService.ConfirmUser(code))
+            {
+                logger.Info("register service returned true");
+                TempData["Confirm"] = "Account Confirmed!";
+                return RedirectToAction("Login", "Login");
+            }
+            else
+            {
+                ViewBag.Confirm = "Confirmation Failed. Please check the link and try again";
+                return View("Register");
+            }
+        }
+
     }
 }

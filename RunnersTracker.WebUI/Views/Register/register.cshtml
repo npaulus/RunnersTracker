@@ -16,6 +16,9 @@
         Sign up now to start enjoying this awesome service that you have no idea what it does!
     </div>
     <div class="small-6 large-6 columns">
+        @if (ViewBag.Confirm != null) {
+            @ViewBag.Confirm
+        }
        <form name="register" method="post" action="/register/doRegister">
            <fieldset>
                <legend>Sign up!</legend>
