@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Resend";
+}
+
+<div class="row" style="padding-top: 20px;">
+    <div style="padding-top: 10px;" class="small-6 small-centered columns panel">
+        <h2>Resend Confirmation Link</h2>
+        @if(ViewBag.ResendResult == null){
+        <form name="resend" method="post" action="/register/resend">
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.Label("email", new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextBox("email", "", new { placeholder = "Email" })
+                </div>
+            </div>            
+            <input type="submit" value="Resend Confirmation" class="button" />
+        </form>
+        } 
+        else if(ViewBag.ResendResult == false)
+        {
+            <p>You don't appear to be a registered user.  Please sign up <a href="~/Views/Register/register">here!</a></p>
+        }
+        else
+        {
+            <p>A confirmation email has been resent to you with the link.</p>    
+        }
+    </div>
+</div>

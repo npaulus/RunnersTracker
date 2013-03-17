@@ -21,8 +21,7 @@ namespace RunnersTracker.WebUI.Controllers
 
         public ActionResult Register()
         {
-            RegisterModel registerModel = new RegisterModel();
-            logger.Info("Inside register action result");
+            RegisterModel registerModel = new RegisterModel();            
             return View(registerModel);
         }
 
@@ -46,7 +45,7 @@ namespace RunnersTracker.WebUI.Controllers
                 }
                 else
                 {
-                    ViewBag.UserExists = "This user already exists.  Did you forget your password?";
+                    ViewBag.UserExists = false;
                     
                     return View("Register");
                 }
@@ -73,10 +72,23 @@ namespace RunnersTracker.WebUI.Controllers
             }
             else
             {
-                ViewBag.Confirm = "Confirmation Failed. Please check the link and try again";
+                ViewBag.Confirm = false;
                 return View("Register");
             }
         }
 
+        [HttpGet]
+        public ActionResult Resend()
+        {
+            return View("Resend");
+        }
+
+        [HttpPost]
+        public ActionResult Resend(string email)
+        {
+            ViewBag.ResendResult = registerService.ResendConfirmationLink(email);
+            
+            return View("Resend");
+        }
     }
 }

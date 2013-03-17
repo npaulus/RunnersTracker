@@ -203,6 +203,7 @@
     <Content Include="Views\Register\RegisterComplete.cshtml" />
     <Content Include="Views\Account\Summary.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Register\Resend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -16,8 +16,13 @@
         Sign up now to start enjoying this awesome service that you have no idea what it does!
     </div>
     <div class="small-6 large-6 columns">
-        @if (ViewBag.Confirm != null) {
-            @ViewBag.Confirm
+        @if (ViewBag.Confirm != null) {        
+            <p>The confirmation link was invalid please check your link.
+            <a href="/register/resend">Resend the link?</a></p>        
+        }
+        @if (ViewBag.UserExists != null)
+        {
+            <p>This email address has already been registered.  Did you forget your <a href="/register/reset">password?</a></p>
         }
        <form name="register" method="post" action="/register/doRegister">
            <fieldset>
