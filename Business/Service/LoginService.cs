@@ -17,7 +17,7 @@ namespace RunnersTracker.Business.Service
         public UserDTO Login(string email, string password)
         {
             UserDTO userDTO = new UserDTO();
-            User userEntity = userDac.RetrieveUser(email);
+            User userEntity = userDac.RetrieveUserByEmail(email);
 
             if (userEntity == null || !userEntity.AccountConfirmed)
             {

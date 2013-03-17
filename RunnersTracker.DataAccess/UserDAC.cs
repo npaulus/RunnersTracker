@@ -13,24 +13,7 @@ namespace RunnersTracker.DataAccess
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(UserDAC));
 
-        public bool getUser(string email)
-        {
-            var ctx = new RunnersTrackerContext();
-
-            var userQuery = ctx.Users.Where(u => u.Email.Equals(email));
-            
-            foreach (User u in userQuery)
-            {
-                if (u.Email.Equals(email))
-                {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
-        public User RetrieveUser(string email)
+        public User RetrieveUserByEmail(string email)
         {
             var ctx = new RunnersTrackerContext();
 
@@ -43,26 +26,22 @@ namespace RunnersTracker.DataAccess
             return null;
         }
 
-        public bool ConfirmUserAccount(string code)
+        public User RetrieveUserByConfirmCode(string code)
         {
             if (code == null || code == "")
             {
-                return false;
+                return null;
             }
             var ctx = new RunnersTrackerContext();
             var findUser = ctx.Users.Where(u => u.ConfirmCode.Equals(code));
             if (findUser.Count() == 1)
             {
                 User user = findUser.First();
-                user.AccountConfirmed = true;
-                user.ConfirmCode = "";
-                logger.Info("Updated User: " + user.AccountConfirmed);
-                logger.Info("Changes Saved: " + ctx.SaveChanges());
-                return true;
+                return user;                
             }
             else
             {
-                return false;
+                return null;
             }
         }
 
@@ -73,5 +52,18 @@ namespace RunnersTracker.DataAccess
             ctx.SaveChanges();
             return user;
         }
+
+        public void Update(User user)
+        {
+            var ctx = new RunnersTrackerContext();
+            User findUser = ctx.Users.Find(user.UserId);
+
+            if (findUser != null)
+            {
+                ctx.Entry(findUser).CurrentValues.SetValues(user);
+                ctx.SaveChanges();
+            }            
+        }
+
     }
 }

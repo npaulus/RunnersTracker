@@ -26,7 +26,7 @@ namespace RunnersTracker.Business.Service
         {
             user.ConfirmCode = RandomString(26, true);
             
-            if (userDac.getUser(user.Email)) //check if user already exists
+            if (userDac.RetrieveUserByEmail(user.Email) != null) //check if user already exists
             {
                 return false;
             }
@@ -37,17 +37,52 @@ namespace RunnersTracker.Business.Service
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
                 userDac.Save(userEntity);
-                SendEmail(user);
-                
+                SendEmail(user);                
             }
-
             return true;
         }
 
         public bool ConfirmUser(string code)
         {
-            bool result = userDac.ConfirmUserAccount(code);
-            logger.Info("Service gets a result of: " + result);
+            User user = userDac.RetrieveUserByConfirmCode(code);
+
+            if (user != null)
+            {
+                Mapper.CreateMap<User, UserDTO>();
+                UserDTO userDto = Mapper.Map<User, UserDTO>(user);
+                userDto.ConfirmCode = "";
+                userDto.AccountConfirmed = true;
+
+                Mapper.CreateMap<UserDTO, User>();
+                User userEntity = Mapper.Map<UserDTO, User>(userDto);
+                
+                userDac.Update(userEntity);
+                return true;
+            }
+            else
+            {
+                return false;
+            }            
+        }
+
+        public bool ResendConfirmationLink(string email)
+        {
+            logger.Info("Inside ResendConfirmationLink method");
+            bool result = false;
+            User userEntity = userDac.RetrieveUserByEmail(email);
+            if (userEntity != null)
+            {
+                Mapper.CreateMap<User, UserDTO>();
+                UserDTO userDto = Mapper.Map<User, UserDTO>(userEntity);
+                logger.Info("User email: " + userDto.Email);
+                logger.Info("User code: " + userDto.ConfirmCode);
+                SendEmail(userDto);
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
             return result;
         }
 
