@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace RunnersTracker.WebUI.Models
 {
@@ -23,17 +24,21 @@ namespace RunnersTracker.WebUI.Models
 
         [Required(ErrorMessage = "Confirm Email address is required")]
         [DataType(DataType.EmailAddress, ErrorMessage="Email must be valid!")]
+        [CompareAttribute("Email", ErrorMessage="Emails must match!")]
         [Display(Name = "Confirm Email", Description = "")]
         public string ConfirmEmail { get; set; }
 
         [Required(ErrorMessage="Password is required and must be less than 18 characters!")]
         [StringLength(18)]
+        [DataType(DataType.Password)]
         [Display(Name = "Password", Description = "")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Password is required and must be less than 18 characters!")]
         [StringLength(18)]
-        [Display(Name = "Confirm Password", Description = "")]
+        [DataType(DataType.Password)]
+        [CompareAttribute("Password", ErrorMessage = "Passwords don't match")]
+        [Display(Name = "Confirm Password", Description = "")]        
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage="Time zone is required!")]
