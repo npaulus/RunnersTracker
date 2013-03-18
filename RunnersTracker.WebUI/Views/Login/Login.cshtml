@@ -10,6 +10,9 @@
         @if(TempData["Confirm"] != null){
             <h4 style="text-align:center;color:green;">@TempData["Confirm"]</h4>
         }
+        @if(TempData["PasswordReset"] != null){
+            <h4 style="text-align:center;color:green;">Password Reset Successfully!</h4>
+        }
         <form name="register" method="post" action="/login/Login">
             @if (ViewBag.LoginFailed != null)
             {
@@ -33,6 +36,7 @@
                 </div>
                 <div class="small-9 large-9 columns">
                     @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
+                    <p style="font-size:smaller;">@Html.ActionLink("Forgot your password?", "/resetpassword")</p>
                 </div>
             </div>
             <input type="submit" value="login" class="button" />

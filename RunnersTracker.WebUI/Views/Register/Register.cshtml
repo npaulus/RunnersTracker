@@ -22,7 +22,7 @@
         }
         @if (ViewBag.UserExists != null)
         {
-            <p>This email address has already been registered.  Did you forget your <a href="/register/reset">password?</a></p>
+            <p>This email address has already been registered.  Did you forget your <a href="/login/reset">password?</a></p>
         }
        <form name="register" method="post" action="/register/doRegister">
            <fieldset>
@@ -103,6 +103,3 @@
        </form>
     </div>
 </div>
-
-
-@DateTime.Now

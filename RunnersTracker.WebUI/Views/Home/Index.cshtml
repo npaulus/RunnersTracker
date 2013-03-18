@@ -42,6 +42,7 @@
                     </div>
                     <div class="small-9 large-9 columns">
                         @Html.PasswordFor(model => model.Password, new { placeholder = "Password" })
+                        <p style="font-size:smaller;"><a href="/login/resetpassword">Forgot your password?</a></p>
                     </div>
                 </div>
                 <input type="submit" value="login" class="button" />

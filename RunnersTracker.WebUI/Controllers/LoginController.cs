@@ -10,6 +10,7 @@ using System.Web.Security;
 
 namespace RunnersTracker.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -20,7 +21,7 @@ namespace RunnersTracker.WebUI.Controllers
         //
         // GET: /Login/
         [HttpGet]
-        [AllowAnonymous]
+        
         public ActionResult Login()
         {
             LoginModel model = new LoginModel();
@@ -28,7 +29,6 @@ namespace RunnersTracker.WebUI.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult LoginIndex(LoginModel model)
         {
             if (ModelState.IsValid)
@@ -61,7 +61,6 @@ namespace RunnersTracker.WebUI.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
@@ -93,7 +92,58 @@ namespace RunnersTracker.WebUI.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            return View("Reset");
+        }
 
+        [HttpPost]
+        public ActionResult ResetPassword(string email)
+        {
+            if (loginService.ResetPassword(email))
+            {
+                TempData["ResetResult"] = true;
+            }
+            else
+            {
+                TempData["ResetResult"] = false;
+            }
+            
+            return RedirectToAction("ResetPassword", "login");
+        }
 
+        [HttpGet]
+        public ActionResult NewPassword(string code)
+        {
+            Session["code"] = code;
+            Logger.Info("Code is: " +code);
+            return View("NewPassword");
+        }
+
+        [HttpPost]
+        public ActionResult NewPassword(NewPasswordModel npModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Logger.Info("Code is: " + Session["code"]);
+                string code = (string)Session["code"];
+                if (loginService.NewPassword(npModel.Password, code))
+                {
+                    TempData["PasswordReset"] = true;
+                    Session["code"] = null;
+                    return RedirectToAction("login", "login");
+                }
+                else
+                {
+                    ViewBag.Expired = true;
+                    return View("NewPassword");
+                }
+            }
+            else
+            {                
+                return View("NewPassword");
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace RunnersTracker.WebUI.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Please Enter Your Password.")]
+        [DataType(DataType.Password)]
         [Display(Name = "Password", Description = "Password")]
         public string Password { get; set; }
 

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Reset Password";
+}
+
+<div class="row" style="padding-top: 20px;">
+    <div style="padding-top: 10px;" class="small-6 small-centered columns panel">
+        <h2>Reset Password</h2>
+        @if (TempData["ResetResult"] == null)
+        {
+        <form name="reset" method="post" action="/login/resetpassword">
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.Label("Email", new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextBox("Email", "", new { placeholder = "Email" })
+                </div>
+            </div>            
+            <input type="submit" value="Reset Password" class="button" />
+        </form>
+        }
+        else if (false == (Boolean)TempData["ResetResult"])
+        {
+            <p>You don't appear to be a registered user.  Please sign up <a href="/Register/Register">here!</a></p>
+        }
+        else
+        {
+            <p>An email on how to reset your password has been sent.</p>    
+        }
+    </div>
+</div>

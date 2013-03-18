@@ -45,6 +45,25 @@ namespace RunnersTracker.DataAccess
             }
         }
 
+        public User RetrieveUserByResetPasswordCode(string code)
+        {
+            if (code == null || code == "")
+            {
+                return null;
+            }
+            var ctx = new RunnersTrackerContext();
+            var findUser = ctx.Users.Where(u => u.PassResetCode.Equals(code));
+            if (findUser.Count() == 1)
+            {
+                User user = findUser.First();
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public User Save(User user)
         {
             var ctx = new RunnersTrackerContext();
