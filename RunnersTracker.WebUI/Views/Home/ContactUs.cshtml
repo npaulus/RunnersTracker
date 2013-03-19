@@ -1,0 +1,43 @@
+﻿@model RunnersTracker.WebUI.Models.ContactUsModel
+@{
+    ViewBag.Title = "Contact Us";
+}
+
+<div class="row">
+    <div class="small-8 small-centered columns">
+        <h2 style="text-align: center;">Contact Runner's Tracker</h2>
+        <p>
+            Please feel free to contact me with suggestions or comments using the form below here.
+        </p>
+        <form name="contactus" method="post" action="/home/contactus">
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.FromName, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextBoxFor(model => model.FromName, new { placeholder = "From Name" })
+                    @Html.ValidationMessageFor(model => model.FromName)
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.Email, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextBoxFor(model => model.Email, new { placeholder = "Email" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.Comment, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.TextAreaFor(model => model.Comment, new { placeholder = "Comments" })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+            </div>
+            <input type="submit" value="Submit Comments" class="button" />
+        </form>
+    </div>
+</div>

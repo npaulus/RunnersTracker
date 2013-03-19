@@ -20,12 +20,14 @@ namespace RunnersTracker.WebUI.Models
         [Required(ErrorMessage="Email address is required")]
         [DataType(DataType.EmailAddress, ErrorMessage="Email must be valid!")]
         [Display(Name = "Email", Description = "")]
+        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Confirm Email address is required")]
         [DataType(DataType.EmailAddress, ErrorMessage="Email must be valid!")]
         [CompareAttribute("Email", ErrorMessage="Emails must match!")]
         [Display(Name = "Confirm Email", Description = "")]
+        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
         public string ConfirmEmail { get; set; }
 
         [Required(ErrorMessage="Password is required and must be less than 18 characters!")]
