@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="RunnersTrackerDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="RunnersTrackerDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="RunnersTrackerDBStoreContainer">
-    <EntitySet Name="Users" EntityType="RunnersTrackerDB.Store.Users" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Store.Shoes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.Store.LogEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="RunnersTrackerDB.Store.Users" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Store.Shoes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.Store.LogEntries" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
     <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.Store.UserShoe">
       <End Role="User" EntitySet="Users" />
       <End Role="Shoe" EntitySet="Shoes" />
@@ -107,8 +107,8 @@
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="RunnersTrackerDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" >
-        <EntityContainer Name="RunnersTrackerContext" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="RunnersTrackerDB" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RunnersTrackerContext" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Users" EntityType="RunnersTrackerDB.User" />
           <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Shoe" />
           <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.UserShoe">
@@ -129,7 +129,7 @@
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="FirstName" Nullable="false" />
           <Property Type="String" Name="LastName" Nullable="false" />
           <Property Type="String" Name="Email" Nullable="false" />
@@ -148,7 +148,7 @@
           <Key>
             <PropertyRef Name="ShoeId" />
           </Key>
-          <Property Type="Int32" Name="ShoeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ShoeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="ShoeName" Nullable="false" />
           <Property Type="Decimal" Name="ShoeDistance" Nullable="false" DefaultValue="0" />
           <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserShoe" FromRole="Shoe" ToRole="User" />
@@ -174,7 +174,7 @@
           <Key>
             <PropertyRef Name="LogId" />
           </Key>
-          <Property Type="Int32" Name="LogId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="LogId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="ActivityName" Nullable="false" />
           <Property Type="String" Name="ActivityType" Nullable="false" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" />
@@ -217,7 +217,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="RunnersTrackerDBStoreContainer" CdmEntityContainer="RunnersTrackerContext">
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="IsTypeOf(RunnersTrackerDB.User)">
@@ -272,14 +272,14 @@
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <edmx:Designer>
     <edmx:Connection>
-      <DesignerInfoPropertySet>
+      <DesignerInfoPropertySet xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
       </DesignerInfoPropertySet>
     </edmx:Connection>
     <edmx:Options>
-      <DesignerInfoPropertySet>
+      <DesignerInfoPropertySet xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
