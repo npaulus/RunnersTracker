@@ -179,7 +179,7 @@
     <Content Include="Content\js\vendor\jquery.js" />
     <Content Include="Content\js\vendor\zepto.js" />
     <Content Include="Global.asax" />
-    <Content Include="MailSettings.config">
+    
       <SubType>Designer</SubType>
     </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
