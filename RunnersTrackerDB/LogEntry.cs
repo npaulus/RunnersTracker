@@ -16,7 +16,6 @@ namespace RunnersTrackerDB
     {
         public int LogId { get; set; }
         public string ActivityName { get; set; }
-        public string ActivityType { get; set; }
         public System.DateTime StartTime { get; set; }
         public string TimeZone { get; set; }
         public int Duration { get; set; }
@@ -29,5 +28,6 @@ namespace RunnersTrackerDB
     
         public virtual Shoe Shoe { get; set; }
         public virtual User User { get; set; }
+        public virtual ActivityTypes ActivityType { get; set; }
     }
 }

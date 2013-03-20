@@ -28,5 +28,6 @@ namespace RunnersTrackerDB
         public DbSet<User> Users { get; set; }
         public DbSet<Shoe> Shoes { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
+        public DbSet<ActivityTypes> ActivityTypes { get; set; }
     }
 }

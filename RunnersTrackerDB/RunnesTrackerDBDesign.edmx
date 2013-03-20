@@ -4,11 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="RunnersTrackerDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RunnersTrackerDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="RunnersTrackerDBStoreContainer">
-    <EntitySet Name="Users" EntityType="RunnersTrackerDB.Store.Users" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Store.Shoes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.Store.LogEntries" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Users" EntityType="RunnersTrackerDB.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Store.Shoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.Store.LogEntries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActivityTypes" EntityType="RunnersTrackerDB.Store.ActivityTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.Store.UserShoe">
       <End Role="User" EntitySet="Users" />
       <End Role="Shoe" EntitySet="Shoes" />
@@ -19,6 +20,10 @@
     </AssociationSet>
     <AssociationSet Name="UserLogEntry" Association="RunnersTrackerDB.Store.UserLogEntry">
       <End Role="User" EntitySet="Users" />
+      <End Role="LogEntry" EntitySet="LogEntries" />
+    </AssociationSet>
+    <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.Store.ActivityTypesLogEntry">
+      <End Role="ActivityTypes" EntitySet="ActivityTypes" />
       <End Role="LogEntry" EntitySet="LogEntries" />
     </AssociationSet>
   </EntityContainer>
@@ -57,7 +62,6 @@
     </Key>
     <Property Name="LogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActivityName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ActivityType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="TimeZone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Duration" Type="int" Nullable="false" />
@@ -67,6 +71,14 @@
     <Property Name="Tags" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ShoeShoeId" Type="int" Nullable="false" />
     <Property Name="UserUserId" Type="int" Nullable="false" />
+    <Property Name="ActivityType_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActivityTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActivityType_Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="UserShoe">
     <End Role="User" Type="RunnersTrackerDB.Store.Users" Multiplicity="1" />
@@ -104,6 +116,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ActivityTypesLogEntry">
+    <End Role="ActivityTypes" Type="RunnersTrackerDB.Store.ActivityTypes" Multiplicity="1" />
+    <End Role="LogEntry" Type="RunnersTrackerDB.Store.LogEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActivityTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogEntry">
+        <PropertyRef Name="ActivityType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -122,6 +146,11 @@
           </AssociationSet>
           <AssociationSet Name="UserLogEntry" Association="RunnersTrackerDB.UserLogEntry">
             <End Role="User" EntitySet="Users" />
+            <End Role="LogEntry" EntitySet="LogEntries" />
+          </AssociationSet>
+          <EntitySet Name="ActivityTypes" EntityType="RunnersTrackerDB.ActivityTypes" />
+          <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.ActivityTypesLogEntry">
+            <End Role="ActivityTypes" EntitySet="ActivityTypes" />
             <End Role="LogEntry" EntitySet="LogEntries" />
           </AssociationSet>
         </EntityContainer>
@@ -176,7 +205,6 @@
           </Key>
           <Property Type="Int32" Name="LogId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="ActivityName" Nullable="false" />
-          <Property Type="String" Name="ActivityType" Nullable="false" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" />
           <Property Type="String" Name="TimeZone" Nullable="false" />
           <Property Type="Int32" Name="Duration" Nullable="false" />
@@ -188,6 +216,7 @@
           <Property Type="Int32" Name="ShoeShoeId" Nullable="false" />
           <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserLogEntry" FromRole="LogEntry" ToRole="User" />
           <Property Type="Int32" Name="UserUserId" Nullable="false" />
+          <NavigationProperty Name="ActivityType" Relationship="RunnersTrackerDB.ActivityTypesLogEntry" FromRole="LogEntry" ToRole="ActivityTypes" />
         </EntityType>
         <Association Name="ShoeLogEntry">
           <End Type="RunnersTrackerDB.Shoe" Role="Shoe" Multiplicity="1" />
@@ -212,6 +241,18 @@
               <PropertyRef Name="UserUserId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ActivityTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="ActivityType_Name" Nullable="false" />
+          <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.ActivityTypesLogEntry" FromRole="ActivityTypes" ToRole="LogEntry" />
+        </EntityType>
+        <Association Name="ActivityTypesLogEntry">
+          <End Type="RunnersTrackerDB.ActivityTypes" Role="ActivityTypes" Multiplicity="1" />
+          <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -255,7 +296,6 @@
         <MappingFragment StoreEntitySet="LogEntries">
           <ScalarProperty Name="LogId" ColumnName="LogId" />
           <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
-          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
           <ScalarProperty Name="Duration" ColumnName="Duration" />
@@ -268,6 +308,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(RunnersTrackerDB.ActivityTypes)">
+        <MappingFragment StoreEntitySet="ActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ActivityType_Name" ColumnName="ActivityType_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ActivityTypesLogEntry" TypeName="RunnersTrackerDB.ActivityTypesLogEntry" StoreEntitySet="LogEntries">
+      <EndProperty Name="ActivityTypes">
+        <ScalarProperty Name="Id" ColumnName="ActivityType_Id" />
+      </EndProperty>
+      <EndProperty Name="LogEntry">
+        <ScalarProperty Name="LogId" ColumnName="LogId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

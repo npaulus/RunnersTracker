@@ -11,6 +11,8 @@
         <EntityTypeShape EntityType="RunnersTrackerDB.LogEntry" Width="1.5" PointX="3" PointY="3.125" />
         <AssociationConnector Association="RunnersTrackerDB.ShoeLogEntry" />
         <AssociationConnector Association="RunnersTrackerDB.UserLogEntry" />
+        <EntityTypeShape EntityType="RunnersTrackerDB.ActivityTypes" Width="1.5" PointX="6.5" PointY="5" />
+        <AssociationConnector Association="RunnersTrackerDB.ActivityTypesLogEntry" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

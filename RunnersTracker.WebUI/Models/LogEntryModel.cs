@@ -11,7 +11,7 @@ namespace RunnersTracker.WebUI.Models
         [StringLength(25,ErrorMessage = "Activity Name must be less than 25 characters")]
         public String ActivityName { get; set; }
         
-        public String ActivityType { get; set; }
+        public int ActivityType { get; set; }
         
         public DateTime StartDate { get; set; }
 

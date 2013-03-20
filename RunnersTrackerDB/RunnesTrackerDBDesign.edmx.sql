@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/12/2013 12:28:21
+-- Date Created: 03/20/2013 16:56:01
 -- Generated from EDMX file: C:\Users\Nate\Documents\GitHub\RunnersTracker\RunnersTrackerDB\RunnesTrackerDBDesign.edmx
 -- --------------------------------------------------
 
@@ -26,6 +26,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UserLogEntry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_UserLogEntry];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ActivityTypesLogEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_ActivityTypesLogEntry];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -39,6 +42,9 @@ IF OBJECT_ID(N'[dbo].[Shoes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LogEntries]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LogEntries];
+GO
+IF OBJECT_ID(N'[dbo].[ActivityTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ActivityTypes];
 GO
 
 -- --------------------------------------------------
@@ -78,7 +84,6 @@ GO
 CREATE TABLE [dbo].[LogEntries] (
     [LogId] int IDENTITY(1,1) NOT NULL,
     [ActivityName] nvarchar(max)  NOT NULL,
-    [ActivityType] nvarchar(max)  NOT NULL,
     [StartTime] datetime  NOT NULL,
     [TimeZone] nvarchar(max)  NOT NULL,
     [Duration] int  NOT NULL,
@@ -87,7 +92,15 @@ CREATE TABLE [dbo].[LogEntries] (
     [Description] nvarchar(max)  NULL,
     [Tags] nvarchar(max)  NULL,
     [ShoeShoeId] int  NOT NULL,
-    [UserUserId] int  NOT NULL
+    [UserUserId] int  NOT NULL,
+    [ActivityType_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'ActivityTypes'
+CREATE TABLE [dbo].[ActivityTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ActivityType_Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -111,6 +124,12 @@ GO
 ALTER TABLE [dbo].[LogEntries]
 ADD CONSTRAINT [PK_LogEntries]
     PRIMARY KEY CLUSTERED ([LogId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ActivityTypes'
+ALTER TABLE [dbo].[ActivityTypes]
+ADD CONSTRAINT [PK_ActivityTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -157,6 +176,20 @@ ADD CONSTRAINT [FK_UserLogEntry]
 CREATE INDEX [IX_FK_UserLogEntry]
 ON [dbo].[LogEntries]
     ([UserUserId]);
+GO
+
+-- Creating foreign key on [ActivityType_Id] in table 'LogEntries'
+ALTER TABLE [dbo].[LogEntries]
+ADD CONSTRAINT [FK_ActivityTypesLogEntry]
+    FOREIGN KEY ([ActivityType_Id])
+    REFERENCES [dbo].[ActivityTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ActivityTypesLogEntry'
+CREATE INDEX [IX_FK_ActivityTypesLogEntry]
+ON [dbo].[LogEntries]
+    ([ActivityType_Id]);
 GO
 
 -- --------------------------------------------------
