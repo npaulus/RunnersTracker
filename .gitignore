@@ -32,6 +32,7 @@ obj/
 Ankh.NoLoad
 Logs/
 RunnersTracker.WebUI/MailSettings.config
+RunnersTracker.WebUI/Properties/PublishProfiles
 
 #MonoDevelop
 *.pidb

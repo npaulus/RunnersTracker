@@ -140,7 +140,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -148,12 +149,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ContactUsModel.cs" />
+    <Compile Include="Models\LogEntryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewPasswordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\app.css" />
     <Content Include="Content\css\foundation.css" />
     <Content Include="Content\css\foundation.min.css" />
     <Content Include="Content\css\normalize.css" />
@@ -211,7 +214,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
     <Content Include="Views\Register\RegisterComplete.cshtml" />
-    <Content Include="Views\Account\Summary.cshtml" />
+    <Content Include="Views\Summary\Summary.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Register\Resend.cshtml" />
     <Content Include="Views\Login\Reset.cshtml" />
@@ -219,6 +222,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\ContactUsComplete.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Log\AddActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

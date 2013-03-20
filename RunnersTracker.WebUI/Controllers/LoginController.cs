@@ -52,7 +52,7 @@ namespace RunnersTracker.WebUI.Controllers
                     HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                     Session["User"] = user;
                     Response.Cookies.Add(faCookie);
-                    return RedirectToAction("Summary", "Account");
+                    return RedirectToAction("Summary", "Summary");
                 }                
             }
             TempData["LoginFailed"] = "Login Failed!";
@@ -84,7 +84,7 @@ namespace RunnersTracker.WebUI.Controllers
                     HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                     Session["User"] = user;
                     Response.Cookies.Add(faCookie);
-                    return RedirectToAction("Summary", "Account");
+                    return RedirectToAction("Summary", "Summary");
                 }
                 
             }

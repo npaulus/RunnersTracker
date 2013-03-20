@@ -1,20 +1,23 @@
 ﻿<!DOCTYPE html>
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    
+
     <link rel="stylesheet" href="/Content/css/normalize.css" />
     <link rel="stylesheet" href="/Content/css/foundation.min.css" />
+    <link rel="stylesheet" href="/Content/css/app.css" />
 
     <script src="/Content/js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
     <div class="row">
         <div class="small-12 large-12 columns">
-            <h1 style="text-align:center;">Runner's Tracker</h1>
+            <h1 style="text-align: center;">Runner's Tracker</h1>
         </div>
     </div>
     <div class="row">
@@ -23,19 +26,40 @@
                 <nav class="top-bar">
                     <section class="top-bar-section">
                         <ul class="left">
-                            <li class="active">
+                            <li class="@ViewBag.Home">
                                 <a href="/">Home</a>
                             </li>
-                            <li>
+                            <li class="@ViewBag.Register">
                                 <a href="/register">Sign up!</a>
                             </li>
-                            <li>
+                            @if (Session["User"] != null)
+                            {
+                                <li class="@ViewBag.Summary">
+                                    <a href="/summary">Summary</a>
+                                </li>
+                                <li class="@ViewBag.Log">
+                                    <a href="/log">Log</a>
+                                </li>
+                                <li class="@ViewBag.Reports">
+                                    <a href="/reports">Reports</a>
+                                </li>
+                                <li class="@ViewBag.Settings">
+                                    <a href="/settings">Settings</a>
+                                </li>
+                                <li class="@ViewBag.Logout">
+                                    <a href="/logout">Logout</a>
+                                </li>
+                            }
+                            else 
+                            {
+                            <li class="@ViewBag.Login">
                                 <a href="/login">Login</a>
                             </li>
-                            <li>
+                            }
+                            <li class="@ViewBag.Contact">
                                 <a href="/home/contactus">Contact Us</a>
                             </li>
-                            <li>
+                            <li class="@ViewBag.About">
                                 <a href="/home/about">About</a>
                             </li>
                         </ul>
@@ -49,7 +73,7 @@
         <div class="small-12 large-12 columns">
             @RenderBody()
         </div>
-    </div>   
+    </div>
 
     <script>
         document.write('<script src=' +

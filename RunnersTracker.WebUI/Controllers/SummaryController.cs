@@ -6,14 +6,14 @@ using System.Web.Mvc;
 
 namespace RunnersTracker.WebUI.Controllers
 {
-    public class AccountController : Controller
+    public class SummaryController : Controller
     {
         //
         // GET: /Account/
 
         public ActionResult Index()
         {
-            return View();
+            return View("Summary");
         }
 
         public ActionResult Summary()
