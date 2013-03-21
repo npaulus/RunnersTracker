@@ -7,7 +7,7 @@
     <div style="padding-top: 10px;" class="small-6 small-centered columns panel">
         <h2>Resend Confirmation Link</h2>
         @if(ViewBag.ResendResult == null){
-        <form name="resend" method="post" action="/register/resend">
+        <form name="resend" method="post" action="/register/resend" class="custom">
             <div class="row">
                 <div class="small-3 large-3 columns">
                     @Html.Label("email", new { @class = "right inline" })

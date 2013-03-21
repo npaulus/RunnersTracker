@@ -74,28 +74,18 @@
             @RenderBody()
         </div>
     </div>
+    <script>
+        document.write('<script src=/Content/js/vendor/'
+          + ('__proto__' in {} ? 'zepto' : 'jquery')
+          + '.js><\/script>');
+    </script>      
+    <script src="/Content/js/foundation.min.js"></script>        
+    <script>
+        // alternative, all plugins, only callback
 
-    <script>
-        document.write('<script src=' +
-        ('__proto__' in {} ? 'Content/js/vendor/zepto' : 'Content/js/vendor/jquery') +
-        '.js><\/script>')
-    </script>
-    <script src="/Content/js/foundation/foundation.js"></script>
-    <script src="/Content/js/foundation/foundation.alerts.js"></script>
-    <script src="/Content/js/foundation/foundation.clearing.js"></script>
-    <script src="/Content/js/foundation/foundation.cookie.js"></script>
-    <script src="/Content/js/foundation/foundation.dropdown.js"></script>
-    <script src="/Content/js/foundation/foundation.forms.js"></script>
-    <script src="/Content/js/foundation/foundation.joyride.js"></script>
-    <script src="/Content/js/foundation/foundation.magellan.js"></script>
-    <script src="/Content/js/foundation/foundation.orbit.js"></script>
-    <script src="/Content/js/foundation/foundation.placeholder.js"></script>
-    <script src="/Content/js/foundation/foundation.reveal.js"></script>
-    <script src="/Content/js/foundation/foundation.section.js"></script>
-    <script src="/Content/js/foundation/foundation.tooltips.js"></script>
-    <script src="/Content/js/foundation/foundation.topbar.js"></script>
-    <script>
-        $(document).foundation();
+        $(document).foundation(function (response) {
+            console.log(response.errors);
+        });
     </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
         @if(TempData["PasswordReset"] != null){
             <h4 style="text-align:center;color:green;">Password Reset Successfully!</h4>
         }
-        <form name="register" method="post" action="/login/Login">
+        <form name="register" method="post" action="/login/Login" class="custom">
             @if (ViewBag.LoginFailed != null)
             {
                 <div class="row">

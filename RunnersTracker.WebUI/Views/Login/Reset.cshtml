@@ -8,7 +8,7 @@
         <h2>Reset Password</h2>
         @if (TempData["ResetResult"] == null)
         {
-        <form name="reset" method="post" action="/login/resetpassword">
+        <form name="reset" method="post" action="/login/resetpassword" class="custom">
             <div class="row">
                 <div class="small-3 large-3 columns">
                     @Html.Label("Email", new { @class = "right inline" })
