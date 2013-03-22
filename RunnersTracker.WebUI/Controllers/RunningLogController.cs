@@ -28,14 +28,25 @@ namespace RunnersTracker.WebUI.Controllers
             UserDTO user = (UserDTO)Session["User"];
             ViewBag.ActivityTypes = runningLogService.ActivityTypes();
             ViewBag.UserShoes = runningLogService.GetUserShoes(user);
-            logger.Info("User shoes is: " + ViewBag.UserShoes);
+            
             return View();
         }
 
         [HttpPost]
         public ActionResult AddActivity(LogEntryModel model)
         {
-            return RedirectToAction("Index", "Log");
+            if (ModelState.IsValid)
+            {
+                
+                return RedirectToAction("Index", "RunningLog");
+            }
+            else
+            {
+                UserDTO user = (UserDTO)Session["User"];
+                ViewBag.ActivityTypes = runningLogService.ActivityTypes();
+                ViewBag.UserShoes = runningLogService.GetUserShoes(user);
+                return View();
+            }
         }
 
     }

@@ -74,17 +74,14 @@
             @RenderBody()
         </div>
     </div>
-    <script>
-        document.write('<script src=/Content/js/vendor/'
-          + ('__proto__' in {} ? 'zepto' : 'jquery')
-          + '.js><\/script>');
-    </script>      
-    <script src="/Content/js/foundation.min.js"></script>        
-    <script>
-        // alternative, all plugins, only callback
 
-        $(document).foundation(function (response) {
-            console.log(response.errors);
+    <script src="/Content/js/vendor/jquery.js"></script>
+    <script src="/Content/js/foundation.min.js"></script> 
+    <script src="/Content/js/vendor/jquery-ui-1.10.2.custom.min.js"></script>
+    <script>
+        $(document).foundation();
+        $(document).ready(function () {
+            $('#StartDate').datepicker();
         });
     </script>
 </body>

@@ -175,6 +175,7 @@
     <Content Include="Content\js\foundation\foundation.section.js" />
     <Content Include="Content\js\foundation\foundation.tooltips.js" />
     <Content Include="Content\js\foundation\foundation.topbar.js" />
+    <Content Include="Content\js\vendor\jquery-ui-1.10.2.custom.min.js" />
     <Content Include="Content\js\vendor\custom.modernizr.js" />
     <Content Include="Content\js\vendor\jquery.js" />
     <Content Include="Content\js\vendor\zepto.js" />
