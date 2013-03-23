@@ -47,6 +47,14 @@
                 </div>
             </div>
             <div class="row">
+                <div class="small-3 large-3 columns">
+                    @Html.LabelFor(model => model.TimeZone, new { @class = "right inline" })
+                </div>
+                <div class="small-9 large-9 columns">
+                    @Html.DropDownListFor(model => model.TimeZone, new SelectList(ViewBag.TimeZones, "Id", "DisplayName", ViewBag.SelectTz))
+                </div>
+            </div>
+            <div class="row">
                 <div class="small-12 large-12 columns">
                     <hr />
                 </div>

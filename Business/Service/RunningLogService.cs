@@ -16,6 +16,7 @@ namespace RunnersTracker.Business.Service
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         ActivityTypesDAC _activityTypesDAC = new ActivityTypesDAC();
         ShoeDAC _shoeDAC = new ShoeDAC();
+        LogEntriesDAC _logEntriesDAC = new LogEntriesDAC();
 
         public ISet<ActivityTypesDTO> ActivityTypes()
         {
@@ -46,6 +47,24 @@ namespace RunnersTracker.Business.Service
             }
             logger.Info("Number of user shoes: " + userShoesDTO.Count);
             return userShoesDTO;
+        }
+
+        public bool AddActivity(LogEntryDTO logEntryDTO)
+        {
+            logger.Info("Inside Add Activity Method");
+            LogEntry logEntryEntity = new LogEntry();
+            Mapper.CreateMap<LogEntryDTO, LogEntry>();
+            logEntryEntity = Mapper.Map<LogEntryDTO, LogEntry>(logEntryDTO);
+            if (_logEntriesDAC.AddNewActivity(logEntryEntity))
+            {
+                logger.Info("DB Returned true for add");
+                return true;
+            }
+            else
+            {
+                logger.Info("DB Returned false for add");
+                return false;
+            }
         }
 
     }

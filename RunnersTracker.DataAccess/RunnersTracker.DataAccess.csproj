@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityTypesDAC.cs" />
+    <Compile Include="LogEntriesDAC.cs" />
     <Compile Include="ShoeDAC.cs" />
     <Compile Include="UserDAC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

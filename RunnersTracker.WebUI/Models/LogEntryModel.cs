@@ -16,17 +16,17 @@ namespace RunnersTracker.WebUI.Models
         [Display(Name = "Activity Name ", Description = "")]
         public String ActivityName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Activity Type is required")]
         [Display(Name = "Activity Type ", Description = "")]
         public int ActivityType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required field")]
         [DataType(DataType.Date)] 
         [StartDate(ErrorMessage = "Date must be today's date or earlier, but not less than 1/1/1930")]
         [Display(Name = "Start Date", Description = "")]
         public DateTime StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required field")]
         [Display(Name = "Start Time", Description = "")]
         [RegularExpression(@"([1][0-2]|\d):([0-5]\d)\s(AM|PM)", ErrorMessage = "Please enter time in this format 05:00 PM")]
         public string StartTime { get; set; }
