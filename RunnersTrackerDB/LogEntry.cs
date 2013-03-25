@@ -23,11 +23,12 @@ namespace RunnersTrackerDB
         public Nullable<int> Calories { get; set; }
         public string Description { get; set; }
         public string Tags { get; set; }
-        public int ShoeShoeId { get; set; }
-        public int UserUserId { get; set; }
+        public int ActivityTypesId { get; set; }
+        public Nullable<int> ShoeId { get; set; }
+        public int UserId { get; set; }
     
+        public virtual ActivityTypes ActivityType { get; set; }
         public virtual Shoe Shoe { get; set; }
         public virtual User User { get; set; }
-        public virtual ActivityTypes ActivityType { get; set; }
     }
 }

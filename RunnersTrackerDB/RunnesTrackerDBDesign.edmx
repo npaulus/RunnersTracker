@@ -10,20 +10,20 @@
     <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Store.Shoes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.Store.LogEntries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ActivityTypes" EntityType="RunnersTrackerDB.Store.ActivityTypes" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.Store.UserShoe">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Shoe" EntitySet="Shoes" />
+    <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.Store.ActivityTypesLogEntry">
+      <End Role="ActivityTypes" EntitySet="ActivityTypes" />
+      <End Role="LogEntry" EntitySet="LogEntries" />
     </AssociationSet>
     <AssociationSet Name="ShoeLogEntry" Association="RunnersTrackerDB.Store.ShoeLogEntry">
       <End Role="Shoe" EntitySet="Shoes" />
       <End Role="LogEntry" EntitySet="LogEntries" />
     </AssociationSet>
+    <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.Store.UserShoe">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Shoe" EntitySet="Shoes" />
+    </AssociationSet>
     <AssociationSet Name="UserLogEntry" Association="RunnersTrackerDB.Store.UserLogEntry">
       <End Role="User" EntitySet="Users" />
-      <End Role="LogEntry" EntitySet="LogEntries" />
-    </AssociationSet>
-    <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.Store.ActivityTypesLogEntry">
-      <End Role="ActivityTypes" EntitySet="ActivityTypes" />
       <End Role="LogEntry" EntitySet="LogEntries" />
     </AssociationSet>
   </EntityContainer>
@@ -55,6 +55,7 @@
     <Property Name="ShoeBrand" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ShoeModel" Type="nvarchar(max)" Nullable="false" />
     <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="LogEntries">
     <Key>
@@ -69,9 +70,9 @@
     <Property Name="Calories" Type="int" Nullable="true" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Tags" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="ShoeShoeId" Type="int" Nullable="false" />
-    <Property Name="UserUserId" Type="int" Nullable="false" />
-    <Property Name="ActivityType_Id" Type="int" Nullable="false" />
+    <Property Name="ActivityTypesId" Type="int" Nullable="false" />
+    <Property Name="ShoeId" Type="int" Nullable="true" />
+    <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ActivityTypes">
     <Key>
@@ -80,6 +81,30 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActivityType_Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <Association Name="ActivityTypesLogEntry">
+    <End Role="ActivityTypes" Type="RunnersTrackerDB.Store.ActivityTypes" Multiplicity="1" />
+    <End Role="LogEntry" Type="RunnersTrackerDB.Store.LogEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActivityTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogEntry">
+        <PropertyRef Name="ActivityTypesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShoeLogEntry">
+    <End Role="Shoe" Type="RunnersTrackerDB.Store.Shoes" Multiplicity="0..1" />
+    <End Role="LogEntry" Type="RunnersTrackerDB.Store.LogEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shoe">
+        <PropertyRef Name="ShoeId" />
+      </Principal>
+      <Dependent Role="LogEntry">
+        <PropertyRef Name="ShoeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="UserShoe">
     <End Role="User" Type="RunnersTrackerDB.Store.Users" Multiplicity="1" />
     <End Role="Shoe" Type="RunnersTrackerDB.Store.Shoes" Multiplicity="*" />
@@ -88,19 +113,7 @@
         <PropertyRef Name="UserId" />
       </Principal>
       <Dependent Role="Shoe">
-        <PropertyRef Name="ShoeUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ShoeLogEntry">
-    <End Role="Shoe" Type="RunnersTrackerDB.Store.Shoes" Multiplicity="1" />
-    <End Role="LogEntry" Type="RunnersTrackerDB.Store.LogEntries" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Shoe">
-        <PropertyRef Name="ShoeId" />
-      </Principal>
-      <Dependent Role="LogEntry">
-        <PropertyRef Name="ShoeShoeId" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -112,19 +125,7 @@
         <PropertyRef Name="UserId" />
       </Principal>
       <Dependent Role="LogEntry">
-        <PropertyRef Name="UserUserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ActivityTypesLogEntry">
-    <End Role="ActivityTypes" Type="RunnersTrackerDB.Store.ActivityTypes" Multiplicity="1" />
-    <End Role="LogEntry" Type="RunnersTrackerDB.Store.LogEntries" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ActivityTypes">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="LogEntry">
-        <PropertyRef Name="ActivityType_Id" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -135,22 +136,22 @@
         <EntityContainer Name="RunnersTrackerContext" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Users" EntityType="RunnersTrackerDB.User" />
           <EntitySet Name="Shoes" EntityType="RunnersTrackerDB.Shoe" />
-          <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.UserShoe">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Shoe" EntitySet="Shoes" />
-          </AssociationSet>
           <EntitySet Name="LogEntries" EntityType="RunnersTrackerDB.LogEntry" />
+          <EntitySet Name="ActivityTypes" EntityType="RunnersTrackerDB.ActivityTypes" />
+          <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.ActivityTypesLogEntry">
+            <End Role="ActivityTypes" EntitySet="ActivityTypes" />
+            <End Role="LogEntry" EntitySet="LogEntries" />
+          </AssociationSet>
           <AssociationSet Name="ShoeLogEntry" Association="RunnersTrackerDB.ShoeLogEntry">
             <End Role="Shoe" EntitySet="Shoes" />
             <End Role="LogEntry" EntitySet="LogEntries" />
           </AssociationSet>
+          <AssociationSet Name="UserShoe" Association="RunnersTrackerDB.UserShoe">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Shoe" EntitySet="Shoes" />
+          </AssociationSet>
           <AssociationSet Name="UserLogEntry" Association="RunnersTrackerDB.UserLogEntry">
             <End Role="User" EntitySet="Users" />
-            <End Role="LogEntry" EntitySet="LogEntries" />
-          </AssociationSet>
-          <EntitySet Name="ActivityTypes" EntityType="RunnersTrackerDB.ActivityTypes" />
-          <AssociationSet Name="ActivityTypesLogEntry" Association="RunnersTrackerDB.ActivityTypesLogEntry">
-            <End Role="ActivityTypes" EntitySet="ActivityTypes" />
             <End Role="LogEntry" EntitySet="LogEntries" />
           </AssociationSet>
         </EntityContainer>
@@ -169,9 +170,9 @@
           <Property Type="String" Name="ConfirmCode" Nullable="true" />
           <Property Type="String" Name="PassResetCode" Nullable="true" />
           <Property Type="DateTime" Name="PassResetExpire" Nullable="true" />
+          <Property Type="Binary" Name="Salt" Nullable="false" />
           <NavigationProperty Name="Shoes" Relationship="RunnersTrackerDB.UserShoe" FromRole="User" ToRole="Shoe" />
           <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.UserLogEntry" FromRole="User" ToRole="LogEntry" />
-          <Property Type="Binary" Name="Salt" Nullable="false" />
         </EntityType>
         <EntityType Name="Shoe">
           <Key>
@@ -180,25 +181,14 @@
           <Property Type="Int32" Name="ShoeId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="ShoeName" Nullable="false" />
           <Property Type="Decimal" Name="ShoeDistance" Nullable="false" DefaultValue="0" />
-          <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserShoe" FromRole="Shoe" ToRole="User" />
           <Property Type="Int32" Name="ShoeUserId" Nullable="false" />
-          <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.ShoeLogEntry" FromRole="Shoe" ToRole="LogEntry" />
           <Property Type="String" Name="ShoeBrand" Nullable="false" />
           <Property Type="String" Name="ShoeModel" Nullable="false" />
           <Property Type="DateTime" Name="PurchaseDate" Nullable="false" />
+          <NavigationProperty Name="LogEntries" Relationship="RunnersTrackerDB.ShoeLogEntry" FromRole="Shoe" ToRole="LogEntry" />
+          <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserShoe" FromRole="Shoe" ToRole="User" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
         </EntityType>
-        <Association Name="UserShoe">
-          <End Type="RunnersTrackerDB.User" Role="User" Multiplicity="1" />
-          <End Type="RunnersTrackerDB.Shoe" Role="Shoe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Shoe">
-              <PropertyRef Name="ShoeUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="LogEntry">
           <Key>
             <PropertyRef Name="LogId" />
@@ -212,36 +202,13 @@
           <Property Type="Int32" Name="Calories" Nullable="true" />
           <Property Type="String" Name="Description" Nullable="true" />
           <Property Type="String" Name="Tags" Nullable="true" />
-          <NavigationProperty Name="Shoe" Relationship="RunnersTrackerDB.ShoeLogEntry" FromRole="LogEntry" ToRole="Shoe" />
-          <Property Type="Int32" Name="ShoeShoeId" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserLogEntry" FromRole="LogEntry" ToRole="User" />
-          <Property Type="Int32" Name="UserUserId" Nullable="false" />
           <NavigationProperty Name="ActivityType" Relationship="RunnersTrackerDB.ActivityTypesLogEntry" FromRole="LogEntry" ToRole="ActivityTypes" />
+          <Property Type="Int32" Name="ActivityTypesId" Nullable="false" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Shoe" Relationship="RunnersTrackerDB.ShoeLogEntry" FromRole="LogEntry" ToRole="Shoe" />
+          <Property Type="Int32" Name="ShoeId" Nullable="true" />
+          <NavigationProperty Name="User" Relationship="RunnersTrackerDB.UserLogEntry" FromRole="LogEntry" ToRole="User" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
         </EntityType>
-        <Association Name="ShoeLogEntry">
-          <End Type="RunnersTrackerDB.Shoe" Role="Shoe" Multiplicity="1" />
-          <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Shoe">
-              <PropertyRef Name="ShoeId" />
-            </Principal>
-            <Dependent Role="LogEntry">
-              <PropertyRef Name="ShoeShoeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="UserLogEntry">
-          <End Type="RunnersTrackerDB.User" Role="User" Multiplicity="1" />
-          <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="LogEntry">
-              <PropertyRef Name="UserUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ActivityTypes">
           <Key>
             <PropertyRef Name="Id" />
@@ -253,6 +220,50 @@
         <Association Name="ActivityTypesLogEntry">
           <End Type="RunnersTrackerDB.ActivityTypes" Role="ActivityTypes" Multiplicity="1" />
           <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActivityTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogEntry">
+              <PropertyRef Name="ActivityTypesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShoeLogEntry">
+          <End Type="RunnersTrackerDB.Shoe" Role="Shoe" Multiplicity="0..1" />
+          <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shoe">
+              <PropertyRef Name="ShoeId" />
+            </Principal>
+            <Dependent Role="LogEntry">
+              <PropertyRef Name="ShoeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserShoe">
+          <End Type="RunnersTrackerDB.User" Role="User" Multiplicity="1" />
+          <End Type="RunnersTrackerDB.Shoe" Role="Shoe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Shoe">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserLogEntry">
+          <End Type="RunnersTrackerDB.User" Role="User" Multiplicity="1" />
+          <End Type="RunnersTrackerDB.LogEntry" Role="LogEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LogEntry">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -288,6 +299,7 @@
           <ScalarProperty Name="ShoeBrand" ColumnName="ShoeBrand" />
           <ScalarProperty Name="ShoeModel" ColumnName="ShoeModel" />
           <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -303,8 +315,9 @@
           <ScalarProperty Name="Calories" ColumnName="Calories" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Tags" ColumnName="Tags" />
-          <ScalarProperty Name="ShoeShoeId" ColumnName="ShoeShoeId" />
-          <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
+          <ScalarProperty Name="ActivityTypesId" ColumnName="ActivityTypesId" />
+          <ScalarProperty Name="ShoeId" ColumnName="ShoeId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -316,14 +329,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ActivityTypesLogEntry" TypeName="RunnersTrackerDB.ActivityTypesLogEntry" StoreEntitySet="LogEntries">
-      <EndProperty Name="ActivityTypes">
-        <ScalarProperty Name="Id" ColumnName="ActivityType_Id" />
-      </EndProperty>
-      <EndProperty Name="LogEntry">
-        <ScalarProperty Name="LogId" ColumnName="LogId" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

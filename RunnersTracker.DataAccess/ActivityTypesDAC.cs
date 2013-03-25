@@ -25,5 +25,13 @@ namespace RunnersTracker.DataAccess
             return AllActivityTypes;
 
         }
+
+        public ActivityTypes GetActivityTypeById(int id)
+        {
+            var ctx = new RunnersTrackerContext();
+            ActivityTypes activityType = ctx.ActivityTypes.Find(id);
+            return activityType;
+        }
+
     }
 }

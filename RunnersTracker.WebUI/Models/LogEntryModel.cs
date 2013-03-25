@@ -32,7 +32,7 @@ namespace RunnersTracker.WebUI.Models
         public string StartTime { get; set; }
 
         [Display(Name = "Hours", Description = "")]
-        public int hours {get; set;}
+        public int? hours {get; set;}
 
         [Required(ErrorMessage = "Please enter minutes")]
         [Display(Name = "Minutes", Description = "")]
@@ -61,7 +61,7 @@ namespace RunnersTracker.WebUI.Models
         public Int32 UserId { get; set; }
 
         [Display(Name = "Shoes ", Description = "")]
-        public Int32 ShoeId { get; set; }
+        public Nullable<Int32> ShoeId { get; set; }
         
     }
 

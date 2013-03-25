@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/20/2013 16:56:01
+-- Date Created: 03/25/2013 16:16:01
 -- Generated from EDMX file: C:\Users\Nate\Documents\GitHub\RunnersTracker\RunnersTrackerDB\RunnesTrackerDBDesign.edmx
 -- --------------------------------------------------
 
@@ -17,17 +17,17 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_UserShoe]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Shoes] DROP CONSTRAINT [FK_UserShoe];
+IF OBJECT_ID(N'[dbo].[FK_ActivityTypesLogEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_ActivityTypesLogEntry];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ShoeLogEntry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_ShoeLogEntry];
 GO
+IF OBJECT_ID(N'[dbo].[FK_UserShoe]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Shoes] DROP CONSTRAINT [FK_UserShoe];
+GO
 IF OBJECT_ID(N'[dbo].[FK_UserLogEntry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_UserLogEntry];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ActivityTypesLogEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LogEntries] DROP CONSTRAINT [FK_ActivityTypesLogEntry];
 GO
 
 -- --------------------------------------------------
@@ -76,7 +76,8 @@ CREATE TABLE [dbo].[Shoes] (
     [ShoeUserId] int  NOT NULL,
     [ShoeBrand] nvarchar(max)  NOT NULL,
     [ShoeModel] nvarchar(max)  NOT NULL,
-    [PurchaseDate] datetime  NOT NULL
+    [PurchaseDate] datetime  NOT NULL,
+    [UserId] int  NOT NULL
 );
 GO
 
@@ -91,9 +92,9 @@ CREATE TABLE [dbo].[LogEntries] (
     [Calories] int  NULL,
     [Description] nvarchar(max)  NULL,
     [Tags] nvarchar(max)  NULL,
-    [ShoeShoeId] int  NOT NULL,
-    [UserUserId] int  NOT NULL,
-    [ActivityType_Id] int  NOT NULL
+    [ActivityTypesId] int  NOT NULL,
+    [ShoeId] int  NULL,
+    [UserId] int  NOT NULL
 );
 GO
 
@@ -136,52 +137,10 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [ShoeUserId] in table 'Shoes'
-ALTER TABLE [dbo].[Shoes]
-ADD CONSTRAINT [FK_UserShoe]
-    FOREIGN KEY ([ShoeUserId])
-    REFERENCES [dbo].[Users]
-        ([UserId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserShoe'
-CREATE INDEX [IX_FK_UserShoe]
-ON [dbo].[Shoes]
-    ([ShoeUserId]);
-GO
-
--- Creating foreign key on [ShoeShoeId] in table 'LogEntries'
-ALTER TABLE [dbo].[LogEntries]
-ADD CONSTRAINT [FK_ShoeLogEntry]
-    FOREIGN KEY ([ShoeShoeId])
-    REFERENCES [dbo].[Shoes]
-        ([ShoeId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ShoeLogEntry'
-CREATE INDEX [IX_FK_ShoeLogEntry]
-ON [dbo].[LogEntries]
-    ([ShoeShoeId]);
-GO
-
--- Creating foreign key on [UserUserId] in table 'LogEntries'
-ALTER TABLE [dbo].[LogEntries]
-ADD CONSTRAINT [FK_UserLogEntry]
-    FOREIGN KEY ([UserUserId])
-    REFERENCES [dbo].[Users]
-        ([UserId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserLogEntry'
-CREATE INDEX [IX_FK_UserLogEntry]
-ON [dbo].[LogEntries]
-    ([UserUserId]);
-GO
-
--- Creating foreign key on [ActivityType_Id] in table 'LogEntries'
+-- Creating foreign key on [ActivityTypesId] in table 'LogEntries'
 ALTER TABLE [dbo].[LogEntries]
 ADD CONSTRAINT [FK_ActivityTypesLogEntry]
-    FOREIGN KEY ([ActivityType_Id])
+    FOREIGN KEY ([ActivityTypesId])
     REFERENCES [dbo].[ActivityTypes]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -189,7 +148,49 @@ ADD CONSTRAINT [FK_ActivityTypesLogEntry]
 -- Creating non-clustered index for FOREIGN KEY 'FK_ActivityTypesLogEntry'
 CREATE INDEX [IX_FK_ActivityTypesLogEntry]
 ON [dbo].[LogEntries]
-    ([ActivityType_Id]);
+    ([ActivityTypesId]);
+GO
+
+-- Creating foreign key on [ShoeId] in table 'LogEntries'
+ALTER TABLE [dbo].[LogEntries]
+ADD CONSTRAINT [FK_ShoeLogEntry]
+    FOREIGN KEY ([ShoeId])
+    REFERENCES [dbo].[Shoes]
+        ([ShoeId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ShoeLogEntry'
+CREATE INDEX [IX_FK_ShoeLogEntry]
+ON [dbo].[LogEntries]
+    ([ShoeId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'Shoes'
+ALTER TABLE [dbo].[Shoes]
+ADD CONSTRAINT [FK_UserShoe]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserShoe'
+CREATE INDEX [IX_FK_UserShoe]
+ON [dbo].[Shoes]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'LogEntries'
+ALTER TABLE [dbo].[LogEntries]
+ADD CONSTRAINT [FK_UserLogEntry]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserLogEntry'
+CREATE INDEX [IX_FK_UserLogEntry]
+ON [dbo].[LogEntries]
+    ([UserId]);
 GO
 
 -- --------------------------------------------------

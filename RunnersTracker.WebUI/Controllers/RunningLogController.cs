@@ -43,18 +43,30 @@ namespace RunnersTracker.WebUI.Controllers
                 UserDTO user = (UserDTO)Session["User"];
                 LogEntryDTO logEntry = new LogEntryDTO();
 
-                logEntry.UserUserId = user.UserId;
+                logEntry.UserId = user.UserId;
                 logEntry.ActivityName = model.ActivityName;
-                logEntry.ActivityType_Id = model.ActivityType;
+                logEntry.ActivityTypesId = model.ActivityType;
+                
                 logEntry.Calories = model.Calories;
                 logEntry.Description = model.Description;
                 logEntry.Distance = model.Distance;
-                logEntry.Duration = model.hours * 60 * 60 + model.minutes * 60 + model.seconds;
-                logEntry.ShoeShoeId = model.ShoeId;
+                int hours = 0;
+                if (model.hours.HasValue)
+                {
+                    hours = (int) model.hours;
+                }
+
+                logEntry.Duration = hours * 60 * 60 + model.minutes * 60 + model.seconds;
+                logEntry.ShoeId = model.ShoeId;
                 logEntry.Tags = model.Tags;
                 logEntry.TimeZone = model.TimeZone;
+                logger.Info("Time after timespan: " + model.StartDate.Date.ToShortDateString() + " " + model.StartTime);
+                DateTime combinedStartTime = DateTime.Parse(model.StartDate.Date.ToShortDateString() + " " + model.StartTime);
+                logEntry.StartTime = combinedStartTime;
+                logger.Info("Activity type id: " + logEntry.ActivityTypesId);
+                logger.Info("Acitivty from model: " + model.ActivityType);
 
-                if (runningLogService.AddActivity(logEntry))
+                if (runningLogService.AddActivity(logEntry, user))
                 {
                     return RedirectToAction("Index", "RunningLog");
                 }
@@ -66,6 +78,16 @@ namespace RunnersTracker.WebUI.Controllers
             }
             else
             {
+                foreach (var item in ModelState)
+                {
+                    logger.Info("error key: " + item.Key);
+                    var errors = item.Value.Errors;
+                    foreach (var error in errors)
+                    {
+                        logger.Info("Error Values: " + error.ErrorMessage);
+                    }
+                    
+                }
                 UserDTO user = (UserDTO)Session["User"];
                 ViewBag.ActivityTypes = runningLogService.ActivityTypes();
                 ViewBag.UserShoes = runningLogService.GetUserShoes(user);

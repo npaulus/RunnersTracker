@@ -16,7 +16,13 @@ namespace RunnersTracker.DataAccess
             var ctx = new RunnersTrackerContext();
             try
             {
+                le.ActivityType = ctx.ActivityTypes.Find(le.ActivityTypesId);
+                le.User = ctx.Users.Find(le.UserId);
+
+                le.Shoe = ctx.Shoes.Find(le.ShoeId);
+                
                 ctx.LogEntries.Add(le);
+
                 ctx.SaveChanges();
             }
             catch (Exception e)

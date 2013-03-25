@@ -22,5 +22,13 @@ namespace RunnersTracker.DataAccess
 
             return userShoes;
         }
+
+        public Shoe GetUserShoesById(int id)
+        {
+            var ctx = new RunnersTrackerContext();
+            Shoe shoe = ctx.Shoes.Find(id);
+            return shoe;
+        }
+
     }
 }

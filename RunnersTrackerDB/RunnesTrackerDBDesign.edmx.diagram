@@ -7,12 +7,12 @@
       <Diagram DiagramId="02a11b26e2ba4f7fae2e5e042383e68a" Name="Diagram1" >
         <EntityTypeShape EntityType="RunnersTrackerDB.User" Width="1.5" PointX="9.75" PointY="1.125" />
         <EntityTypeShape EntityType="RunnersTrackerDB.Shoe" Width="1.5" PointX="6.25" PointY="0.5" />
-        <AssociationConnector Association="RunnersTrackerDB.UserShoe" />
         <EntityTypeShape EntityType="RunnersTrackerDB.LogEntry" Width="1.5" PointX="3" PointY="3.125" />
-        <AssociationConnector Association="RunnersTrackerDB.ShoeLogEntry" />
-        <AssociationConnector Association="RunnersTrackerDB.UserLogEntry" />
-        <EntityTypeShape EntityType="RunnersTrackerDB.ActivityTypes" Width="1.5" PointX="6.5" PointY="5" />
+        <EntityTypeShape EntityType="RunnersTrackerDB.ActivityTypes" Width="1.5" PointX="6.5" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="RunnersTrackerDB.ActivityTypesLogEntry" />
+        <AssociationConnector Association="RunnersTrackerDB.ShoeLogEntry" />
+        <AssociationConnector Association="RunnersTrackerDB.UserShoe" />
+        <AssociationConnector Association="RunnersTrackerDB.UserLogEntry" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

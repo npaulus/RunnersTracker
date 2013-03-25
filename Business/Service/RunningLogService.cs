@@ -17,6 +17,7 @@ namespace RunnersTracker.Business.Service
         ActivityTypesDAC _activityTypesDAC = new ActivityTypesDAC();
         ShoeDAC _shoeDAC = new ShoeDAC();
         LogEntriesDAC _logEntriesDAC = new LogEntriesDAC();
+        UserDAC _userDAC = new UserDAC();
 
         public ISet<ActivityTypesDTO> ActivityTypes()
         {
@@ -49,12 +50,13 @@ namespace RunnersTracker.Business.Service
             return userShoesDTO;
         }
 
-        public bool AddActivity(LogEntryDTO logEntryDTO)
+        public bool AddActivity(LogEntryDTO logEntryDTO, UserDTO user)
         {
             logger.Info("Inside Add Activity Method");
             LogEntry logEntryEntity = new LogEntry();
             Mapper.CreateMap<LogEntryDTO, LogEntry>();
             logEntryEntity = Mapper.Map<LogEntryDTO, LogEntry>(logEntryDTO);
+
             if (_logEntriesDAC.AddNewActivity(logEntryEntity))
             {
                 logger.Info("DB Returned true for add");
