@@ -20,12 +20,14 @@ namespace RunnersTracker.Business.Service
     public class LoginService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        UserDAC userDac = new UserDAC();
-
+        private UnitOfWork unitOfWork = new UnitOfWork();
+        
         public UserDTO Login(string email, string password)
         {
             UserDTO userDTO = new UserDTO();
-            User userEntity = userDac.RetrieveUserByEmail(email);
+            
+            var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
+            User userEntity = users.First();
 
             if (userEntity == null || !userEntity.AccountConfirmed)
             {
@@ -51,7 +53,8 @@ namespace RunnersTracker.Business.Service
         public bool ResetPassword(string email)
         {
             UserDTO userDto = new UserDTO();
-            User userEntity = userDac.RetrieveUserByEmail(email);
+            var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
+            User userEntity = users.First();
 
             if (userEntity != null)
             {
@@ -62,8 +65,9 @@ namespace RunnersTracker.Business.Service
                 user.PassResetExpire = DateTime.Now.AddMinutes(10);
 
                 Mapper.CreateMap<UserDTO, User>();
-                User updated = Mapper.Map<UserDTO, User>(user);
-                userDac.Update(updated);
+                User userUpdated = Mapper.Map<UserDTO, User>(user);
+                unitOfWork.UserRepository.Update(userUpdated, userEntity);
+                unitOfWork.Save();
                 SendEmail(user);
                 return true;
             }
@@ -75,7 +79,9 @@ namespace RunnersTracker.Business.Service
 
         public bool NewPassword(string password, string code)
         {
-            User userEntity = userDac.RetrieveUserByResetPasswordCode(code);
+
+            var users = unitOfWork.UserRepository.Get(u => u.PassResetCode.Equals(code));
+            User userEntity = users.First();
             if (userEntity != null)
             {
                 Mapper.CreateMap<User, UserDTO>();
@@ -88,7 +94,8 @@ namespace RunnersTracker.Business.Service
                     user.PassResetExpire = null;
                     Mapper.CreateMap<UserDTO, User>();
                     User userUpdated = Mapper.Map<UserDTO, User>(user);
-                    userDac.Update(userUpdated);
+                    unitOfWork.UserRepository.Update(userUpdated, userEntity);
+                    unitOfWork.Save();
                     return true;
                 }
                 else
@@ -101,7 +108,7 @@ namespace RunnersTracker.Business.Service
                 return false;
             }            
         }
-
+        
         private static void SendEmail(UserDTO user)
         {
             //use thread pool to prevent the controller from blocking the SendAsync method

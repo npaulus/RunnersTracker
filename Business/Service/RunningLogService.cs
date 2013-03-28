@@ -14,15 +14,12 @@ namespace RunnersTracker.Business.Service
     public class RunningLogService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        ActivityTypesDAC _activityTypesDAC = new ActivityTypesDAC();
-        ShoeDAC _shoeDAC = new ShoeDAC();
-        LogEntriesDAC _logEntriesDAC = new LogEntriesDAC();
-        UserDAC _userDAC = new UserDAC();
+        UnitOfWork unitOfWork = new UnitOfWork();        
 
-        public ISet<ActivityTypesDTO> ActivityTypes()
+        public IList<ActivityTypesDTO> ActivityTypes()
         {
-            ISet<ActivityTypes> activityTypesDB = _activityTypesDAC.ActivityTypes();
-            ISet<ActivityTypesDTO> activityTypesDTO = new HashSet<ActivityTypesDTO>();
+            IList<ActivityTypes> activityTypesDB = unitOfWork.ActivityTypesRepository.Get().ToList();
+            IList<ActivityTypesDTO> activityTypesDTO = new List<ActivityTypesDTO>();
             Mapper.CreateMap<ActivityTypes, ActivityTypesDTO>();
             foreach (ActivityTypes a in activityTypesDB)
             {
@@ -33,14 +30,14 @@ namespace RunnersTracker.Business.Service
             return activityTypesDTO;
         }
 
-        public ISet<ShoeDTO> GetUserShoes(UserDTO user)
+        public IList<ShoeDTO> GetUserShoes(UserDTO user)
         {
-            ISet<Shoe> userShoes = new HashSet<Shoe>();
-            ISet<ShoeDTO> userShoesDTO = new HashSet<ShoeDTO>();
+            IList<Shoe> userShoes = unitOfWork.ShoeRepository.Get(s => s.UserId == user.UserId).ToList();
+            IList<ShoeDTO> userShoesDTO = new List<ShoeDTO>();
             Mapper.CreateMap<UserDTO, User>();
             Mapper.CreateMap<Shoe, ShoeDTO>();
             User userEntity = Mapper.Map<UserDTO, User>(user);
-            userShoes = _shoeDAC.GetUserShoes(userEntity);
+            
             foreach (Shoe s in userShoes)
             {
                 ShoeDTO temp = Mapper.Map<Shoe, ShoeDTO>(s);
@@ -56,17 +53,20 @@ namespace RunnersTracker.Business.Service
             LogEntry logEntryEntity = new LogEntry();
             Mapper.CreateMap<LogEntryDTO, LogEntry>();
             logEntryEntity = Mapper.Map<LogEntryDTO, LogEntry>(logEntryDTO);
+            if (logEntryDTO.ShoeId.HasValue)
+            {
+                int _shoeId = (int)logEntryDTO.ShoeId;
+                Shoe shoeEntity = unitOfWork.ShoeRepository.GetByID(_shoeId);
+                shoeEntity.ShoeDistance += logEntryDTO.Distance;
+                logEntryEntity.Shoe = shoeEntity;
+            }
 
-            if (_logEntriesDAC.AddNewActivity(logEntryEntity))
-            {
-                logger.Info("DB Returned true for add");
-                return true;
-            }
-            else
-            {
-                logger.Info("DB Returned false for add");
-                return false;
-            }
+            logEntryEntity.User = unitOfWork.UserRepository.GetByID(user.UserId);
+            logEntryEntity.ActivityType = unitOfWork.ActivityTypesRepository.GetByID(logEntryDTO.ActivityTypesId);
+
+            unitOfWork.LogEntryRepository.Insert(logEntryEntity);
+            unitOfWork.Save();
+            return true;           
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using RunnersTracker.Common;
 using RunnersTracker.Business.DTO;
 using AutoMapper;
@@ -19,14 +20,15 @@ namespace RunnersTracker.Business.Service
     public class RegisterService
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterService));
-        
-        UserDAC userDac = new UserDAC();
+        private UnitOfWork unitOfWork = new UnitOfWork();
 
         public bool createNewUser(UserDTO user)
         {
             user.ConfirmCode = PasswordManagement.RandomString(26, true);
             
-            if (userDac.RetrieveUserByEmail(user.Email) != null) //check if user already exists
+            var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(user.Email));
+            
+            if (users.Count() > 0) //check if user already exists
             {
                 return false;
             }
@@ -36,7 +38,8 @@ namespace RunnersTracker.Business.Service
                 Mapper.CreateMap<UserDTO, User>();
                 User userEntity = Mapper.Map<UserDTO, User>(user);
                 userEntity.DistanceType = "Miles";
-                userDac.Save(userEntity);
+                unitOfWork.UserRepository.Insert(userEntity);
+                unitOfWork.Save();                
                 SendEmail(user);                
             }
             return true;
@@ -44,10 +47,11 @@ namespace RunnersTracker.Business.Service
 
         public bool ConfirmUser(string code)
         {
-            User user = userDac.RetrieveUserByConfirmCode(code);
+            var users = unitOfWork.UserRepository.Get(u => u.ConfirmCode.Equals(code));            
 
-            if (user != null)
+            if (users.Count() == 1)
             {
+                User user = users.First();
                 Mapper.CreateMap<User, UserDTO>();
                 UserDTO userDto = Mapper.Map<User, UserDTO>(user);
                 userDto.ConfirmCode = "";
@@ -56,7 +60,8 @@ namespace RunnersTracker.Business.Service
                 Mapper.CreateMap<UserDTO, User>();
                 User userEntity = Mapper.Map<UserDTO, User>(userDto);
                 
-                userDac.Update(userEntity);
+                unitOfWork.UserRepository.Update(userEntity, user);
+                unitOfWork.Save();
                 return true;
             }
             else
@@ -69,9 +74,11 @@ namespace RunnersTracker.Business.Service
         {
             logger.Info("Inside ResendConfirmationLink method");
             bool result = false;
-            User userEntity = userDac.RetrieveUserByEmail(email);
-            if (userEntity != null)
+            var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
+            
+            if (users.Count() == 1)
             {
+                User userEntity = users.First();
                 Mapper.CreateMap<User, UserDTO>();
                 UserDTO userDto = Mapper.Map<User, UserDTO>(userEntity);
                 logger.Info("User email: " + userDto.Email);
