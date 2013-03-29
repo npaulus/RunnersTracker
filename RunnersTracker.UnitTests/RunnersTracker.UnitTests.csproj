@@ -73,11 +73,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LoginControllerTest.cs" />
+    <Compile Include="LoginServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business\RunnersTracker.Business.csproj">
+      <Project>{36a91e78-39a3-4905-a275-e081598af1aa}</Project>
+      <Name>RunnersTracker.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RunnersTracker.Common\RunnersTracker.Common.csproj">
+      <Project>{262033e1-78a9-4731-bc35-d1f7700f785d}</Project>
+      <Name>RunnersTracker.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RunnersTracker.DataAccess\RunnersTracker.DataAccess.csproj">
+      <Project>{6c138768-5437-43bd-b857-7530a5c516ac}</Project>
+      <Name>RunnersTracker.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

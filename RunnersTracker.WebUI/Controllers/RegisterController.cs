@@ -1,6 +1,7 @@
 ﻿using RunnersTracker.WebUI.Models;
 using RunnersTracker.Business.Service;
-using RunnersTracker.Business.DTO; 
+using RunnersTracker.Business.DTO;
+using RunnersTracker.Business.Service.Impl;
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -14,8 +15,14 @@ namespace RunnersTracker.WebUI.Controllers
     [AllowAnonymous]
     public class RegisterController : Controller
     {        
-        RegisterService registerService = new RegisterService();
+        private IRegisterService registerService;
         private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterController));
+
+        public RegisterController(IRegisterService _registerService)
+        {
+            this.registerService = _registerService;
+        }
+
         //
         // GET: /Register/
 

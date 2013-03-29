@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using RunnersTracker.DataAccess;
 using RunnersTracker.Business.DTO;
+using RunnersTracker.Business.Service.Impl;
 using RunnersTrackerDB;
 using RunnersTracker.Common;
 using AutoMapper;
@@ -15,13 +16,18 @@ using System.Threading;
 using System.Net.Mail;
 using System.ComponentModel;
 
-namespace RunnersTracker.Business.Service
+namespace RunnersTracker.Business.Service.Impl
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private IUnitOfWork unitOfWork = new UnitOfWork();
-        
+        private IUnitOfWork unitOfWork;
+
+        public LoginService(IUnitOfWork _unitOfWork)
+        {
+            this.unitOfWork = _unitOfWork;
+        }
+
         public UserDTO Login(string email, string password)
         {
             UserDTO userDTO = new UserDTO();

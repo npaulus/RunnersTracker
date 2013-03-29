@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RunnersTracker.WebUI.Models;
-using RunnersTracker.Business.Service;
+using RunnersTracker.Business.Service.Impl;
+using RunnersTracker.Business.Service.Interface;
 using RunnersTracker.Business.DTO;
 using log4net;
 
@@ -13,7 +14,13 @@ namespace RunnersTracker.WebUI.Controllers
     public class RunningLogController : Controller
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        RunningLogService runningLogService = new RunningLogService();
+        IRunningLogService runningLogService;
+
+        public RunningLogController(IRunningLogService rls)
+        {
+            this.runningLogService = rls;
+        }
+
         //
         // GET: /Log/
 

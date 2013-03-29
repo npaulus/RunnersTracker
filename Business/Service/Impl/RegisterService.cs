@@ -5,6 +5,7 @@ using RunnersTracker.Common;
 using RunnersTracker.Business.DTO;
 using AutoMapper;
 using RunnersTracker.DataAccess;
+using RunnersTracker.Business.Service.Impl;
 using RunnersTrackerDB;
 using System.Net.Mail;
 using log4net;
@@ -15,12 +16,17 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 
-namespace RunnersTracker.Business.Service
+namespace RunnersTracker.Business.Service.Impl
 {
-    public class RegisterService
+    public class RegisterService : IRegisterService
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterService));
-        private IUnitOfWork unitOfWork = new UnitOfWork();
+        private IUnitOfWork unitOfWork;
+
+        public RegisterService(IUnitOfWork _unitOfWork)
+        {
+            this.unitOfWork = _unitOfWork;
+        }
 
         public bool createNewUser(UserDTO user)
         {

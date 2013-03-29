@@ -8,13 +8,19 @@ using RunnersTracker.Business.DTO;
 using RunnersTrackerDB;
 using AutoMapper;
 using log4net;
+using RunnersTracker.Business.Service.Interface;
 
-namespace RunnersTracker.Business.Service
+namespace RunnersTracker.Business.Service.Impl
 {
-    public class RunningLogService
+    public class RunningLogService : IRunningLogService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private IUnitOfWork unitOfWork = new UnitOfWork();        
+        private IUnitOfWork unitOfWork;
+
+        public RunningLogService(IUnitOfWork _unitOfWork)
+        {
+            this.unitOfWork = _unitOfWork;
+        }
 
         public IList<ActivityTypesDTO> ActivityTypes()
         {

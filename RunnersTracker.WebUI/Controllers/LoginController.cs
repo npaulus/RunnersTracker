@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using RunnersTracker.Business.Service.Impl;
 
 namespace RunnersTracker.WebUI.Controllers
 {
@@ -17,7 +18,11 @@ namespace RunnersTracker.WebUI.Controllers
         public log4net.ILog Logger { get { return _logger; } }
 
 
-        private LoginService loginService = new LoginService();
+        private ILoginService loginService;
+        public LoginController(ILoginService _loginService)
+        {
+            this.loginService = _loginService;
+        }
         //
         // GET: /Login/
         [HttpGet]
