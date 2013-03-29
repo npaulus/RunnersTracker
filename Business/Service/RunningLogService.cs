@@ -14,7 +14,7 @@ namespace RunnersTracker.Business.Service
     public class RunningLogService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        UnitOfWork unitOfWork = new UnitOfWork();        
+        private IUnitOfWork unitOfWork = new UnitOfWork();        
 
         public IList<ActivityTypesDTO> ActivityTypes()
         {

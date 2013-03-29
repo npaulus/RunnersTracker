@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace RunnersTracker.DataAccess
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork,IDisposable
     {
         private RunnersTrackerContext ctx = new RunnersTrackerContext();
-        private GenericRepository<User> userRepository;
-        private GenericRepository<LogEntry> logEntryRepository;
-        private GenericRepository<ActivityTypes> activityTypesRepository;
-        private GenericRepository<Shoe> shoeRepository;
+        private IGenericRepository<User> userRepository;
+        private IGenericRepository<LogEntry> logEntryRepository;
+        private IGenericRepository<ActivityTypes> activityTypesRepository;
+        private IGenericRepository<Shoe> shoeRepository;
 
-        public GenericRepository<User> UserRepository
+        public IGenericRepository<User> UserRepository
         {
             get
             {
@@ -27,7 +27,7 @@ namespace RunnersTracker.DataAccess
             }
         }
 
-        public GenericRepository<LogEntry> LogEntryRepository
+        public IGenericRepository<LogEntry> LogEntryRepository
         {
             get
             {
@@ -39,7 +39,7 @@ namespace RunnersTracker.DataAccess
             }
         }
 
-        public GenericRepository<ActivityTypes> ActivityTypesRepository
+        public IGenericRepository<ActivityTypes> ActivityTypesRepository
         {
             get
             {
@@ -51,7 +51,7 @@ namespace RunnersTracker.DataAccess
             }
         }
 
-        public GenericRepository<Shoe> ShoeRepository
+        public IGenericRepository<Shoe> ShoeRepository
         {
             get
             {

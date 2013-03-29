@@ -20,7 +20,7 @@ namespace RunnersTracker.Business.Service
     public class LoginService
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private IUnitOfWork unitOfWork = new UnitOfWork();
         
         public UserDTO Login(string email, string password)
         {

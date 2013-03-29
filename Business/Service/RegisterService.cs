@@ -20,7 +20,7 @@ namespace RunnersTracker.Business.Service
     public class RegisterService
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(RegisterService));
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private IUnitOfWork unitOfWork = new UnitOfWork();
 
         public bool createNewUser(UserDTO user)
         {

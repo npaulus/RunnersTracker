@@ -4,10 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace RunnersTracker.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class LoginControllerTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestLogin1()
         {
         }
     }
