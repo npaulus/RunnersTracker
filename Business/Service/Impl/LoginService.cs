@@ -33,9 +33,16 @@ namespace RunnersTracker.Business.Service.Impl
             UserDTO userDTO = new UserDTO();
             
             var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
-            User userEntity = users.First();
+            User userEntity = null;
+            
+            if (users.Count() != 1)
+            {
+                return null;
+            }
 
-            if (userEntity == null || !userEntity.AccountConfirmed)
+            userEntity = users.First();
+
+            if (!userEntity.AccountConfirmed)
             {
                 return null;
             }
