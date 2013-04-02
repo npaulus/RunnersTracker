@@ -67,10 +67,11 @@ namespace RunnersTracker.Business.Service.Impl
         {
             UserDTO userDto = new UserDTO();
             var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
-            User userEntity = users.First();
-
-            if (userEntity != null)
+            
+            if (users.Count() == 1)
             {
+                User userEntity = users.First();
+            
                 Mapper.CreateMap<User, UserDTO>();
                 UserDTO user = Mapper.Map<User, UserDTO>(userEntity);
                                 
@@ -94,12 +95,23 @@ namespace RunnersTracker.Business.Service.Impl
         {
 
             var users = unitOfWork.UserRepository.Get(u => u.PassResetCode.Equals(code));
-            User userEntity = users.First();
-            if (userEntity != null)
+            
+            if (users.Count() == 1)
             {
+                User userEntity = users.First();
+                
                 Mapper.CreateMap<User, UserDTO>();
                 UserDTO user = Mapper.Map<User, UserDTO>(userEntity);
-                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(user.PassResetExpire)) < 0)
+                DateTime userResetTime;
+                if (user.PassResetExpire.HasValue)
+                {
+                    userResetTime = (DateTime)user.PassResetExpire;
+                }
+                else
+                {
+                    return false;
+                }
+                if (DateTime.Compare(DateTime.Now, userResetTime) < 0)
                 {
                     user.Salt = PasswordManagement.GenerateSalt();
                     user.Password = PasswordManagement.GenerateSaltedPassword(Encoding.UTF8.GetBytes(password), user.Salt);
