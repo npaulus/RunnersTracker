@@ -16,8 +16,7 @@ namespace RunnersTracker.UnitTests
     [TestClass]
     public class LoginServiceTest
     {
-        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+                
         [TestMethod]
         public void Login_UserDoesNotExist_ReturnsNull()
         {
