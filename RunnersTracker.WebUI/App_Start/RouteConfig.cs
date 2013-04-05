@@ -38,11 +38,17 @@ namespace RunnersTracker.WebUI
             );
 
             routes.MapRoute(
+                name: "RunningLog",
+                url: "RunningLog/{action}/{page}",
+                defaults: new { controller = "RunningLog", action = "Index", page = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            
+
         }
     }
 }

@@ -15,6 +15,7 @@ namespace RunnersTracker.WebUI.Controllers
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IRunningLogService runningLogService;
+        public int PageSize = 5;
 
         public RunningLogController(IRunningLogService rls)
         {
@@ -24,9 +25,26 @@ namespace RunnersTracker.WebUI.Controllers
         //
         // GET: /Log/
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View();
+            UserDTO user = (UserDTO)Session["User"];
+            LogEntryViewModel LogModel = new LogEntryViewModel();
+            //setup paging variables
+            LogModel.CurrentPage = page;
+            LogModel.ItemsPerPage = PageSize;
+            LogModel.TotalItems = runningLogService.GetCountOfUserLogEntries(user);
+            logger.Info("Total Items: " + LogModel.TotalItems);
+            logger.Info("Total Pages: " + LogModel.TotalPages);    
+            //get activity types and their names
+            LogModel.ActivityNames = new Dictionary<int, string>();
+            IList<ActivityTypesDTO> activityTypes = runningLogService.ActivityTypes();
+            foreach(ActivityTypesDTO activity in activityTypes)
+            {
+                LogModel.ActivityNames[activity.Id] = activity.ActivityType_Name;
+            }            
+
+            LogModel.UserLogEntries = runningLogService.GetUserRunningLogEntries(user, page);
+            return View(LogModel);
         }
 
         [HttpGet]

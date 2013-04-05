@@ -1,6 +1,43 @@
-﻿@{
+﻿@using RunnersTracker.WebUI.HtmlHelpers;
+@model RunnersTracker.WebUI.Models.LogEntryViewModel
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Log page</h2>
+<div class="row">
+    <div class="small-12 large-12 columns">
+        <h2 style="text-align: center;">Log Entries</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="small-9 small-centered columns">
+        <table style="margin: 0px auto;width:80%;">
+            <thead>
+                <tr>
+                    <td>Start Time</td>
+                    <td>Activity Name</td>
+                    <td>Activity Type</td>
+                    <td>Miles</td>
+                    <td>Duration</td>
+                    <td>Calories</td>
+                    <td>Tags</td>
+                </tr>
+            </thead>
+            @foreach (var logEntry in Model.UserLogEntries)
+            {
+                <tr>
+                    <td>@logEntry.StartTime.ToString()</td>
+                    <td>@logEntry.ActivityName</td>
+                    <td>@Model.ActivityNames[logEntry.ActivityType_Id]</td>
+                    <td>@logEntry.Distance </td>
+                    <td>@{ TimeSpan ts = new TimeSpan(0,0,logEntry.Duration);}
+                        @ts.ToString()
+                    </td>
+                    <td>@logEntry.Calories</td>
+                    <td>@logEntry.Tags</td>
+                </tr>
+            }
+        </table>
+        @Html.PageLinks(Model, x => Url.Action("index/", new {page = x}))   </div>
+</div>
 <a href="/runninglog/addactivity">Add Activity</a>

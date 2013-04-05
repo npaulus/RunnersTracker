@@ -16,10 +16,29 @@ namespace RunnersTracker.Business.Service.Impl
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private IUnitOfWork unitOfWork;
+        int PageSize = 5;
 
         public RunningLogService(IUnitOfWork _unitOfWork)
         {
             this.unitOfWork = _unitOfWork;
+        }
+
+        public int GetCountOfUserLogEntries(UserDTO user)
+        {
+            return unitOfWork.LogEntryRepository.Get(l => l.UserId == user.UserId).Count();
+        }
+        
+        public IList<LogEntryDTO> GetUserRunningLogEntries(UserDTO user, int page)
+        {
+            IList<LogEntry> logEntries = unitOfWork.LogEntryRepository.Get(l => l.UserId == user.UserId, q => q.OrderBy(l => l.StartTime)).Skip((page - 1) * PageSize).Take(PageSize).ToList();
+            IList<LogEntryDTO> logEntriesDTO = new List<LogEntryDTO>();
+            Mapper.CreateMap<LogEntry, LogEntryDTO>();
+            foreach (LogEntry l in logEntries)
+            {
+                LogEntryDTO temp = Mapper.Map<LogEntry, LogEntryDTO>(l);
+                logEntriesDTO.Add(temp);
+            }
+            return logEntriesDTO;
         }
 
         public IList<ActivityTypesDTO> ActivityTypes()

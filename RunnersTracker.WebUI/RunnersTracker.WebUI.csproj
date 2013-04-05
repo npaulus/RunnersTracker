@@ -157,6 +157,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\HtmlHelpers.cs" />
+    <Compile Include="Models\LogEntryViewModel.cs" />
     <Compile Include="Models\ContactUsModel.cs" />
     <Compile Include="Models\LogEntryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
