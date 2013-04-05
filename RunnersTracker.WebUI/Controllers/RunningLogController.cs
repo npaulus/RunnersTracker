@@ -33,8 +33,7 @@ namespace RunnersTracker.WebUI.Controllers
             LogModel.CurrentPage = page;
             LogModel.ItemsPerPage = PageSize;
             LogModel.TotalItems = runningLogService.GetCountOfUserLogEntries(user);
-            logger.Info("Total Items: " + LogModel.TotalItems);
-            logger.Info("Total Pages: " + LogModel.TotalPages);    
+              
             //get activity types and their names
             LogModel.ActivityNames = new Dictionary<int, string>();
             IList<ActivityTypesDTO> activityTypes = runningLogService.ActivityTypes();
@@ -121,6 +120,12 @@ namespace RunnersTracker.WebUI.Controllers
                 ViewBag.SelectTz = user.TimeZone;
                 return View();
             }
+        }
+
+        public ActionResult DeleteActivity(int logId)
+        {
+            runningLogService.DeleteEntry(logId);
+            return RedirectToAction("Index", "RunningLog");
         }
 
     }

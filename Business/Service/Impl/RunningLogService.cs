@@ -30,7 +30,7 @@ namespace RunnersTracker.Business.Service.Impl
         
         public IList<LogEntryDTO> GetUserRunningLogEntries(UserDTO user, int page)
         {
-            IList<LogEntry> logEntries = unitOfWork.LogEntryRepository.Get(l => l.UserId == user.UserId, q => q.OrderBy(l => l.StartTime)).Skip((page - 1) * PageSize).Take(PageSize).ToList();
+            IList<LogEntry> logEntries = unitOfWork.LogEntryRepository.Get(l => l.UserId == user.UserId, q => q.OrderByDescending(l => l.StartTime)).Skip((page - 1) * PageSize).Take(PageSize).ToList();
             IList<LogEntryDTO> logEntriesDTO = new List<LogEntryDTO>();
             Mapper.CreateMap<LogEntry, LogEntryDTO>();
             foreach (LogEntry l in logEntries)
@@ -92,6 +92,12 @@ namespace RunnersTracker.Business.Service.Impl
             unitOfWork.LogEntryRepository.Insert(logEntryEntity);
             unitOfWork.Save();
             return true;           
+        }
+
+        public void DeleteEntry(int logId)
+        {
+            LogEntry le = unitOfWork.LogEntryRepository.GetByID(logId);
+            unitOfWork.LogEntryRepository.Delete(le);            
         }
 
     }

@@ -11,7 +11,8 @@
 </div>
 <div class="row">
     <div class="small-9 small-centered columns">
-        <table style="margin: 0px auto;width:80%;">
+        <p style="text-align: right;"><a href="/runninglog/addactivity" class="button small success round">Add Activity</a></p>
+        <table style="margin: 0px auto;width:100%;">
             <thead>
                 <tr>
                     <td>Start Time</td>
@@ -21,12 +22,14 @@
                     <td>Duration</td>
                     <td>Calories</td>
                     <td>Tags</td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </thead>
             @foreach (var logEntry in Model.UserLogEntries)
             {
                 <tr>
-                    <td>@logEntry.StartTime.ToString()</td>
+                    <td>@String.Format("{0:MM/dd/yyyy hh:mm tt}",logEntry.StartTime)</td>
                     <td>@logEntry.ActivityName</td>
                     <td>@Model.ActivityNames[logEntry.ActivityType_Id]</td>
                     <td>@logEntry.Distance </td>
@@ -35,9 +38,15 @@
                     </td>
                     <td>@logEntry.Calories</td>
                     <td>@logEntry.Tags</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
                 </tr>
             }
         </table>
-        @Html.PageLinks(Model, x => Url.Action("index/", new {page = x}))   </div>
+    </div>
 </div>
-<a href="/runninglog/addactivity">Add Activity</a>
+<div class="row">
+    <div class="small-9 small-centered columns">
+        <p style="text-align:center;">Pages: @Html.PageLinks(Model, x => Url.Action("index/", new { page = x }))</p>
+    </div>
+</div>
