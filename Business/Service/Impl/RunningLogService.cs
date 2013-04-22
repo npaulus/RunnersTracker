@@ -94,10 +94,48 @@ namespace RunnersTracker.Business.Service.Impl
             return true;           
         }
 
-        public void DeleteEntry(int logId)
+        public LogEntryDTO GetActivity(int activityId, UserDTO user)
         {
-            LogEntry le = unitOfWork.LogEntryRepository.GetByID(logId);
-            unitOfWork.LogEntryRepository.Delete(le);            
+            LogEntry le;
+            le = unitOfWork.LogEntryRepository.Get(l => l.LogId == activityId && l.UserId == user.UserId).First();
+            if (le == null)
+            {
+                return null;
+            }
+            LogEntryDTO leDTO = new LogEntryDTO();
+            Mapper.CreateMap<LogEntry, LogEntryDTO>();
+            leDTO = Mapper.Map<LogEntry, LogEntryDTO>(le);
+            return leDTO;
+        }
+
+        public void UpdateActivity(LogEntryDTO logEntryDTO, UserDTO user)
+        {
+            LogEntry logEntryEntity = new LogEntry();
+            Mapper.CreateMap<LogEntryDTO, LogEntry>();
+            logEntryEntity = Mapper.Map<LogEntryDTO, LogEntry>(logEntryDTO);
+            if (logEntryDTO.ShoeId.HasValue)
+            {
+                int _shoeId = (int)logEntryDTO.ShoeId;
+                Shoe shoeEntity = unitOfWork.ShoeRepository.GetByID(_shoeId);
+                shoeEntity.ShoeDistance += logEntryDTO.Distance;
+                logEntryEntity.Shoe = shoeEntity;
+            }
+
+            logEntryEntity.User = unitOfWork.UserRepository.GetByID(user.UserId);
+            logEntryEntity.ActivityType = unitOfWork.ActivityTypesRepository.GetByID(logEntryDTO.ActivityTypesId);
+
+            LogEntry OldLogEntry = unitOfWork.LogEntryRepository.GetByID(logEntryEntity.LogId);
+            unitOfWork.LogEntryRepository.Update(logEntryEntity, OldLogEntry);
+            unitOfWork.Save();
+        }
+
+        public void DeleteEntry(int logId, UserDTO user)
+        {
+            //make sure the entry to delete belongs to current user
+            LogEntry logEntryToDelete = unitOfWork.LogEntryRepository.Get(l => l.LogId == logId && l.UserId == user.UserId).First();
+            
+            unitOfWork.LogEntryRepository.Delete(logEntryToDelete);
+            unitOfWork.Save();
         }
 
     }

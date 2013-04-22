@@ -122,9 +122,89 @@ namespace RunnersTracker.WebUI.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult EditActivity(int logId)
+        {
+            UserDTO user = (UserDTO) Session["User"];
+            LogEntryModel model = new LogEntryModel();
+            LogEntryDTO userActivity = runningLogService.GetActivity(logId, user);
+            model.ActivityName = userActivity.ActivityName;
+            model.ActivityType = userActivity.ActivityTypesId;
+            model.StartDate = userActivity.StartTime;
+            model.StartTime = userActivity.StartTime.ToShortTimeString();
+            int hours, minutes, seconds;
+            hours = userActivity.Duration / 3600;
+            minutes = (userActivity.Duration - (3600 * hours)) / 60;
+            seconds = (userActivity.Duration - (3600 * hours)) % 60;
+            model.hours = hours;
+            model.minutes = minutes;
+            model.seconds = seconds;
+            model.Distance = userActivity.Distance;
+            model.Calories = userActivity.Calories.Value;
+            model.Tags = userActivity.Tags;
+            model.Description = userActivity.Description;
+            model.ShoeId = userActivity.ShoeId;
+            model.LogId = userActivity.LogId;
+
+            ViewBag.ActivityTypes = runningLogService.ActivityTypes();
+            ViewBag.UserShoes = runningLogService.GetUserShoes(user);
+            System.Collections.ObjectModel.ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
+            ViewBag.TimeZones = tz;
+            ViewBag.SelectTz = user.TimeZone;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditActivity(LogEntryModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserDTO user = (UserDTO)Session["User"];
+                LogEntryDTO logEntry = new LogEntryDTO();
+                logEntry.LogId = model.LogId;
+                logEntry.UserId = user.UserId;
+                logEntry.ActivityName = model.ActivityName;
+                logEntry.ActivityTypesId = model.ActivityType;
+
+                logEntry.Calories = model.Calories;
+                logEntry.Description = model.Description;
+                logEntry.Distance = model.Distance;
+                int hours = 0;
+                if (model.hours.HasValue)
+                {
+                    hours = (int)model.hours;
+                }
+
+                logEntry.Duration = hours * 60 * 60 + model.minutes * 60 + model.seconds;
+                logEntry.ShoeId = model.ShoeId;
+                logEntry.Tags = model.Tags;
+                logEntry.TimeZone = model.TimeZone;
+                logger.Info("Time after timespan: " + model.StartDate.Date.ToShortDateString() + " " + model.StartTime);
+                DateTime combinedStartTime = DateTime.Parse(model.StartDate.Date.ToShortDateString() + " " + model.StartTime);
+                logEntry.StartTime = combinedStartTime;
+                logger.Info("Activity type id: " + logEntry.ActivityTypesId);
+                logger.Info("Acitivty from model: " + model.ActivityType);
+                runningLogService.UpdateActivity(logEntry, user);
+                return RedirectToAction("Index", "RunningLog");
+            }
+            else
+            {
+                UserDTO user = (UserDTO)Session["User"];
+                ViewBag.ActivityTypes = runningLogService.ActivityTypes();
+                ViewBag.UserShoes = runningLogService.GetUserShoes(user);
+                System.Collections.ObjectModel.ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
+                ViewBag.TimeZones = tz;
+                ViewBag.SelectTz = user.TimeZone;
+                return View();
+            }
+            
+        }
+
+        [HttpGet] 
         public ActionResult DeleteActivity(int logId)
         {
-            runningLogService.DeleteEntry(logId);
+            UserDTO user = (UserDTO)Session["User"];
+            runningLogService.DeleteEntry(logId, user);
             return RedirectToAction("Index", "RunningLog");
         }
 

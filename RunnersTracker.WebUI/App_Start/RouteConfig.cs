@@ -35,12 +35,18 @@ namespace RunnersTracker.WebUI
                 name: "Account",
                 url: "Account/{action}",
                 defaults: new { controller = "Account", action = "Summary" }
+            );            
+
+            routes.MapRoute(
+                name: "RunningLogPage",
+                url: "RunningLog/Index/{page}",
+                defaults: new { controller = "RunningLog", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-                name: "RunningLog",
-                url: "RunningLog/{action}/{page}",
-                defaults: new { controller = "RunningLog", action = "Index", page = UrlParameter.Optional }
+                name: "RunningLogModify",
+                url: "RunningLog/{action}/{logId}",
+                defaults: new { controller = "RunningLog" }
             );
 
             routes.MapRoute(

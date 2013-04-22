@@ -14,6 +14,8 @@ namespace RunnersTracker.Business.Service.Interface
         IList<ShoeDTO> GetUserShoes(UserDTO user);
         bool AddActivity(LogEntryDTO logEntryDTO, UserDTO user);
         int GetCountOfUserLogEntries(UserDTO user);
-        void DeleteEntry(int logId);
+        LogEntryDTO GetActivity(int activityId, UserDTO user);
+        void UpdateActivity(LogEntryDTO logEntryDTO, UserDTO user);
+        void DeleteEntry(int logId, UserDTO user);
     }
 }

@@ -10,7 +10,7 @@ namespace RunnersTracker.WebUI.Models
 {
     public class LogEntryModel
     {
-        
+        public int LogId { get; set; }   
 
         [StringLength(25,ErrorMessage = "Activity Name must be less than 25 characters")]
         [Display(Name = "Activity Name ", Description = "")]
@@ -21,13 +21,13 @@ namespace RunnersTracker.WebUI.Models
         public int ActivityType { get; set; }
 
         [Required(ErrorMessage = "Required field")]
-        [DataType(DataType.Date)] 
         [StartDate(ErrorMessage = "Date must be today's date or earlier, but not less than 1/1/1930")]
+        [DataType(DataType.Date)]
         [Display(Name = "Start Date", Description = "")]
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "Required field")]
-        [Display(Name = "Start Time", Description = "")]
+        [Display(Name = "Start Time", Description = "")]        
         [RegularExpression(@"([1][0-2]|\d):([0-5]\d)\s(AM|PM)", ErrorMessage = "Please enter time in this format 05:00 PM")]
         public string StartTime { get; set; }
 

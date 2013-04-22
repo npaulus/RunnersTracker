@@ -170,6 +170,7 @@
     <Content Include="Content\css\app.css" />
     <Content Include="Content\css\foundation.css" />
     <Content Include="Content\css\foundation.min.css" />
+    <Content Include="Content\css\fonts\general_foundicons.svg" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\js\foundation\foundation.alerts.js" />
     <Content Include="Content\js\foundation\foundation.clearing.js" />
@@ -191,6 +192,9 @@
     <Content Include="Content\js\vendor\jquery.js" />
     <Content Include="Content\js\vendor\zepto.js" />
     <Content Include="Global.asax" />
+    <Content Include="Content\css\fonts\general_foundicons.eot" />
+    <Content Include="Content\css\fonts\general_foundicons.ttf" />
+    <Content Include="Content\css\fonts\general_foundicons.woff" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -233,6 +237,7 @@
     <Content Include="Views\Home\ContactUsComplete.cshtml" />
     <Content Include="Views\RunningLog\Index.cshtml" />
     <Content Include="Views\RunningLog\AddActivity.cshtml" />
+    <Content Include="Views\RunningLog\EditActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

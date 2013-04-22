@@ -64,12 +64,14 @@
     <Compile Include="DTO\ShoeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Impl\SummaryService.cs" />
     <Compile Include="Service\Interface\ILoginService.cs" />
     <Compile Include="Service\Interface\IRunningLogService.cs" />
     <Compile Include="Service\Interface\IRegisterService.cs" />
     <Compile Include="Service\Impl\RunningLogService.cs" />
     <Compile Include="Service\Impl\LoginService.cs" />
     <Compile Include="Service\Impl\RegisterService.cs" />
+    <Compile Include="Service\Interface\ISummary.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RunnersTracker.Common\RunnersTracker.Common.csproj">
