@@ -29,6 +29,7 @@ namespace RunnersTracker.WebUI
             builder.RegisterType<LoginService>().As<ILoginService>();
             builder.RegisterType<RegisterService>().As<IRegisterService>();
             builder.RegisterType<RunningLogService>().As<IRunningLogService>();
+            builder.RegisterType<ReportService>().As<IReportService>();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

@@ -29,13 +29,7 @@ namespace RunnersTracker.WebUI
                 name: "Home",
                 url: "Home/{action}",
                 defaults: new { controller = "Home", action = "Index" }
-            );
-
-            routes.MapRoute(
-                name: "Account",
-                url: "Account/{action}",
-                defaults: new { controller = "Account", action = "Summary" }
-            );            
+            );                     
 
             routes.MapRoute(
                 name: "RunningLogPage",
@@ -48,6 +42,12 @@ namespace RunnersTracker.WebUI
                 url: "RunningLog/{action}/{logId}",
                 defaults: new { controller = "RunningLog" }
             );
+
+            routes.MapRoute(
+                name: "Summary",
+                url: "summary/{action}",
+                defaults: new { controller = "Summary", action = "Summary" }
+            );        
 
             routes.MapRoute(
                 name: "Default",

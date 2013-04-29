@@ -31,7 +31,7 @@ namespace RunnersTracker.Business.Service.Impl
         public UserDTO Login(string email, string password)
         {
             UserDTO userDTO = new UserDTO();
-            
+            logger.Info("testing login functionality");
             var users = unitOfWork.UserRepository.Get(u => u.Email.Equals(email));
             User userEntity = null;
             
