@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/Content/css/normalize.css" />
     <link rel="stylesheet" href="/Content/css/foundation.min.css" />
+    <link rel="stylesheet" href="/Content/css/jquery-ui-1.10.2.custom.min.css" />
     <link rel="stylesheet" href="/Content/css/app.css" />
 
     <script src="/Content/js/vendor/custom.modernizr.js"></script>
@@ -28,10 +29,7 @@
                         <ul class="left">
                             <li class="@ViewBag.Home">
                                 <a href="/">Home</a>
-                            </li>
-                            <li class="@ViewBag.Register">
-                                <a href="/register">Sign up!</a>
-                            </li>
+                            </li>                            
                             @if (Session["User"] != null)
                             {
                                 <li class="@ViewBag.Summary">
@@ -52,6 +50,9 @@
                             }
                             else 
                             {
+                            <li class="@ViewBag.Register">
+                                <a href="/register">Sign up!</a>
+                            </li>
                             <li class="@ViewBag.Login">
                                 <a href="/login">Login</a>
                             </li>

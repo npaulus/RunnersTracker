@@ -19,7 +19,7 @@ namespace RunnersTracker.WebUI.Controllers
         // GET: /Home/        
         public ActionResult Index()
         {
-            ViewBag.Title = "My First Page";
+            ViewBag.Title = "Runner's Tracker";
             return View();
         }
 
